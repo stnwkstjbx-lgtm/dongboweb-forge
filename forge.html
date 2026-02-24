@@ -1,0 +1,2516 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+<title>FORGE - Private Training Studio</title>
+<meta name="description" content="프라이빗 트레이닝의 새로운 기준. 과학적 근거에 기반한 체계적 1:1 프로그램을 경험하세요.">
+<meta name="author" content="FORGE Private Training Studio">
+<meta property="og:title" content="FORGE - 프리미엄 프라이빗 트레이닝">
+<meta property="og:description" content="프라이빗 트레이닝의 새로운 기준. 과학적 근거에 기반한 체계적 1:1 프로그램을 경험하세요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:image" content="https://example.com/og-image.jpg">
+<meta property="og:site_name" content="FORGE Private Training Studio">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FORGE - 프리미엄 프라이빗 트레이닝">
+<meta name="twitter:description" content="프라이빗 트레이닝의 새로운 기준. 과학적 근거에 기반한 체계적 1:1 프로그램을 경험하세요.">
+<meta name="twitter:image" content="https://example.com/og-image.jpg">
+<link rel="canonical" href="https://example.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "FORGE Private Training Studio",
+  "description": "프라이빗 트레이닝의 새로운 기준. 과학적 근거에 기반한 체계적 1:1 프로그램.",
+  "url": "https://example.com/",
+  "telephone": "+82-2-1234-5678",
+  "email": "hello@forge-studio.kr",
+  "priceRange": "$$",
+  "image": "https://example.com/og-image.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "강남대로 123",
+    "addressLocality": "강남구",
+    "addressRegion": "서울특별시",
+    "addressCountry": "KR"
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "06:00", "closes": "22:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "18:00" }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" onload="this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+
+<style>
+/* ═══════════════════════════════════════
+   VARIABLES
+   ═══════════════════════════════════════ */
+:root {
+  --cream: #FAF6F1;
+  --cream-dark: #F0EAE0;
+  --espresso: #2C1810;
+  --espresso-light: #4A3328;
+  --bronze: #8B6914;
+  --bronze-light: #A8842A;
+  --warm-gray: #8C7E72;
+  --warm-gray-light: #B5A99E;
+  --border: rgba(44,24,16,0.1);
+  --border-light: rgba(44,24,16,0.06);
+  --serif: 'Fraunces', 'Noto Sans KR', Georgia, serif;
+  --body: 'Noto Sans KR', sans-serif;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --fast: 0.25s ease;
+  /* Semantic tokens */
+  --bg: var(--cream);
+  --bg-alt: var(--cream-dark);
+  --fg: var(--espresso);
+  --fg-light: var(--espresso-light);
+  --dim: var(--warm-gray);
+  --dim-light: var(--warm-gray-light);
+}
+[data-theme="dark"] {
+  --bg: #1A1210;
+  --bg-alt: #241A14;
+  --fg: #FAF6F1;
+  --fg-light: #E8DFD4;
+  --dim: #A89888;
+  --dim-light: #7A6E62;
+  --border: rgba(250,246,241,0.1);
+  --border-light: rgba(250,246,241,0.06);
+}
+
+/* ═══════════════════════════════════════
+   LOADER — Split Wipe
+   ═══════════════════════════════════════ */
+.loader {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.loader-panel {
+  position: absolute; top: 0; bottom: 0; width: 50%;
+  background: var(--espresso);
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.loader-panel-l { left: 0; }
+.loader-panel-r { right: 0; }
+.loader.done .loader-panel-l { transform: translateX(-100%); }
+.loader.done .loader-panel-r { transform: translateX(100%); }
+.loader-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  transition: opacity 0.35s ease 0s;
+}
+.loader.done .loader-content { opacity: 0; }
+.loader.hidden { visibility: hidden; pointer-events: none; }
+.loader-brand {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 8vw, 4.8rem);
+  color: var(--cream);
+  font-weight: 300;
+  opacity: 0;
+  letter-spacing: 0.6em;
+  animation: ldCompress 1s 0.3s var(--ease) forwards;
+}
+.loader-sub {
+  font-family: var(--body);
+  font-size: 10px;
+  color: var(--bronze);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 16px;
+  opacity: 0;
+  animation: ldFadeUp 0.6s 1s var(--ease) forwards;
+}
+.loader-line {
+  width: 0; height: 1px;
+  background: var(--bronze);
+  margin: 24px auto 0;
+  animation: ldLine 1.2s 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes ldCompress {
+  from { opacity: 0; letter-spacing: 0.6em; }
+  to   { opacity: 1; letter-spacing: 0.2em; }
+}
+@keyframes ldFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes ldLine { to { width: 120px; } }
+
+/* ═══════════════════════════════════════
+   GRAIN TEXTURE
+   ═══════════════════════════════════════ */
+.grain {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.025; mix-blend-mode: multiply;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  animation: grainDrift 1.5s steps(3) infinite;
+}
+@keyframes grainDrift {
+  0% { transform: translate(0,0); }
+  33% { transform: translate(-2%,1%); }
+  66% { transform: translate(1%,-2%); }
+  100% { transform: translate(3%,2%); }
+}
+
+/* ═══════════════════════════════════════
+   RESET
+   ═══════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--fg);
+  font-weight: 400;
+  line-height: 1.7;
+  font-size: 15px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { border: none; background: none; cursor: pointer; font-family: var(--body); }
+
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+   ═══════════════════════════════════════ */
+.cursor-dot, .cursor-ring {
+  display: none;
+  position: fixed; top: 0; left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+}
+.cursor-dot { width: 5px; height: 5px; background: var(--bronze); }
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(139,105,20,0.4);
+  margin: -15px 0 0 -15px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.cursor-ring.hover { transform: scale(1.8); opacity: 0.2; }
+@media (pointer: fine) {
+  .cursor-dot, .cursor-ring { display: block; }
+  * { cursor: none !important; }
+}
+
+/* ═══════════════════════════════════════
+   REVEAL
+   ═══════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all var(--transition);
+}
+.nav.scrolled {
+  background: rgba(250,246,241,0.95);
+  backdrop-filter: blur(12px);
+  padding: 16px 48px;
+  box-shadow: 0 1px 0 var(--border);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--espresso);
+}
+.nav.scrolled .nav-logo { color: var(--espresso); }
+.nav.menu-open .nav-logo { color: var(--cream); }
+.nav.menu-open { background: transparent !important; backdrop-filter: none !important; box-shadow: none !important; }
+
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--espresso);
+  transition: color var(--fast);
+}
+.nav.scrolled .nav-links a { color: var(--espresso); }
+.nav-links a:hover { color: var(--bronze); }
+
+.nav-cta {
+  padding: 10px 24px;
+  border: 1px solid var(--bronze);
+  color: var(--bronze) !important;
+  transition: all var(--fast) !important;
+}
+.nav.scrolled .nav-cta { border-color: var(--bronze); color: var(--bronze) !important; }
+.nav-cta:hover { background: var(--bronze); color: var(--cream) !important; border-color: var(--bronze); }
+
+.nav-hamburger {
+  display: none; flex-direction: column; gap: 5px; width: 26px; padding: 4px 0;
+}
+.nav-hamburger span {
+  height: 1.5px; background: var(--espresso); transition: all 0.3s ease; transform-origin: center;
+}
+.nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 5px); background: var(--cream); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; }
+.nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -5px); background: var(--cream); }
+
+.mobile-menu {
+  position: fixed; inset: 0;
+  background: var(--espresso); z-index: 999;
+  display: flex; flex-direction: column;
+  padding: 100px 32px 40px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.5s var(--ease), visibility 0.5s;
+}
+.mobile-menu.open { opacity: 1; visibility: visible; }
+.mobile-menu-nav { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0; }
+.mobile-menu-item {
+  display: block; padding: 18px 0;
+  border-bottom: 1px solid rgba(250,246,241,0.08);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), color 0.25s ease;
+}
+.mobile-menu.open .mobile-menu-item {
+  opacity: 1; transform: none;
+}
+.mobile-menu.open .mobile-menu-item:nth-child(1) { transition-delay: 0.1s; }
+.mobile-menu.open .mobile-menu-item:nth-child(2) { transition-delay: 0.15s; }
+.mobile-menu.open .mobile-menu-item:nth-child(3) { transition-delay: 0.2s; }
+.mobile-menu.open .mobile-menu-item:nth-child(4) { transition-delay: 0.25s; }
+.mobile-menu.open .mobile-menu-item:nth-child(5) { transition-delay: 0.3s; }
+.mobile-menu.open .mobile-menu-item:nth-child(6) { transition-delay: 0.35s; }
+.mobile-menu-item .menu-num {
+  font-family: var(--serif); font-size: 11px; color: var(--bronze);
+  letter-spacing: 2px; display: block; margin-bottom: 4px;
+}
+.mobile-menu-item .menu-label {
+  font-family: var(--serif); font-size: 28px; font-weight: 300;
+  color: var(--cream); letter-spacing: 1px;
+}
+.mobile-menu-item:active .menu-label { color: var(--bronze); }
+.mobile-menu-item.menu-cta {
+  margin-top: 8px; border-bottom: none; text-align: center;
+  padding: 16px 0;
+}
+.mobile-menu-item.menu-cta .menu-label {
+  display: inline-block; font-size: 14px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 14px 40px; border: 1px solid var(--bronze);
+  color: var(--bronze); font-family: var(--body);
+}
+.mobile-menu-footer {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding-top: 24px; border-top: 1px solid rgba(250,246,241,0.08);
+  opacity: 0; transition: opacity 0.4s var(--ease) 0.4s;
+}
+.mobile-menu.open .mobile-menu-footer { opacity: 1; }
+.mobile-menu-footer-left {
+  font-size: 11px; color: rgba(250,246,241,0.35); line-height: 1.6; letter-spacing: 0.5px;
+}
+.mobile-menu-footer-right {
+  font-family: var(--serif); font-size: 11px; color: rgba(250,246,241,0.35);
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   SECTION UTILITY
+   ═══════════════════════════════════════ */
+.section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--bronze); margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--body); font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 500; line-height: 1.2; margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+.section-desc {
+  font-size: 14.5px; font-weight: 300; color: var(--warm-gray); line-height: 1.85;
+}
+.bronze-line { width: 32px; height: 1px; background: var(--bronze); margin: 24px 0; }
+.trial-badge {
+  display: inline-block; margin-top: 20px;
+  font-size: 12px; font-weight: 500; letter-spacing: 1px;
+  color: var(--bronze); padding: 10px 20px;
+  border: 1px solid var(--bronze);
+  position: relative;
+}
+.trial-badge::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--bronze); opacity: 0.06;
+}
+
+/* ═══════════════════════════════════════
+   HERO — SPLIT SCREEN
+   ═══════════════════════════════════════ */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  position: relative;
+}
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 80px 60px 80px 60px;
+  background: var(--cream);
+  position: relative;
+}
+.hero-left::after {
+  content: 'F';
+  position: absolute;
+  top: 50%; right: 60px;
+  transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: 280px;
+  font-weight: 300;
+  color: var(--espresso);
+  opacity: 0.03;
+  line-height: 1;
+  pointer-events: none;
+}
+.hero-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--bronze); margin-bottom: 32px;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 300; line-height: 1.1;
+  color: var(--espresso); margin-bottom: 28px;
+}
+.hero-title em { font-style: italic; color: var(--bronze); }
+.hero-sub {
+  font-size: 15px; font-weight: 300; color: var(--warm-gray);
+  line-height: 1.85; max-width: 400px; margin-bottom: 48px;
+}
+.hero-btn {
+  display: inline-block; width: fit-content;
+  font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  padding: 16px 44px; border: 1px solid var(--espresso);
+  color: var(--espresso); transition: all var(--transition);
+}
+.hero-btn:hover { background: var(--espresso); color: var(--cream); }
+.hero-trial {
+  margin-top: 20px;
+  font-size: 12px; font-weight: 400; color: var(--warm-gray-light);
+  letter-spacing: 0.5px;
+}
+.hero-trial a {
+  color: var(--warm-gray); transition: color var(--fast);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+}
+.hero-trial a:hover { color: var(--bronze); border-color: var(--bronze); }
+
+.hero-right {
+  background: var(--espresso);
+  position: relative; overflow: hidden;
+}
+.hero-right-inner {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #3a2a1a 0%, #2C1810 60%, #1a1210 100%);
+}
+.hero-right-texture {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2l2 3.5-2 3z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-right-label {
+  position: absolute;
+  bottom: 80px; left: 48px;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: rgba(250,246,241,0.2);
+  writing-mode: vertical-rl;
+}
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.hero-scroll-hint span {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--warm-gray-light);
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, var(--warm-gray-light), transparent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ═══════════════════════════════════════
+   PHILOSOPHY — STICKY LEFT + SCROLL RIGHT
+   ═══════════════════════════════════════ */
+.philosophy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+.philosophy-left {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 60px;
+  background: var(--cream);
+}
+.philosophy-left .section-title { color: var(--espresso); }
+.philosophy-right {
+  background: var(--cream-dark);
+  padding: 120px 60px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.phil-item {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.phil-item:first-child { border-top: 1px solid var(--border); }
+.phil-num {
+  font-family: var(--serif); font-size: 32px; font-weight: 300; color: var(--bronze); line-height: 1;
+}
+.phil-title {
+  font-family: var(--body); font-size: 18px; font-weight: 500;
+  color: var(--espresso); margin-bottom: 10px; letter-spacing: -0.3px;
+}
+.phil-desc {
+  font-size: 14px; font-weight: 300; color: var(--warm-gray); line-height: 1.85;
+}
+
+/* ═══════════════════════════════════════
+   PROGRAMS — SPLIT ALTERNATING
+   ═══════════════════════════════════════ */
+.programs-section { background: var(--espresso); }
+.programs-header {
+  padding: 100px 60px 60px;
+  max-width: 1200px; margin: 0 auto;
+}
+.programs-header .section-label { color: var(--bronze-light); }
+.programs-header .section-title { color: var(--cream); }
+.programs-header .section-desc { color: rgba(250,246,241,0.5); }
+
+.program-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(250,246,241,0.06);
+}
+.program-row:last-child { border-bottom: 1px solid rgba(250,246,241,0.06); }
+.program-visual {
+  padding: 80px 60px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.program-visual-num {
+  font-family: var(--serif); font-size: 120px; font-weight: 300;
+  color: rgba(250,246,241,0.04); position: absolute;
+  line-height: 1;
+}
+.program-visual-icon {
+  font-family: var(--serif); font-size: 48px; font-weight: 300;
+  font-style: italic; color: var(--bronze-light);
+  position: relative; z-index: 1;
+}
+.program-content {
+  padding: 60px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.program-name {
+  font-family: var(--serif); font-size: 26px; font-weight: 400;
+  color: var(--cream); margin-bottom: 16px;
+}
+.program-desc {
+  font-size: 14px; font-weight: 300; color: rgba(250,246,241,0.5);
+  line-height: 1.85; margin-bottom: 24px;
+}
+.program-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.program-tag {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.5px;
+  padding: 6px 16px; border: 1px solid rgba(250,246,241,0.1);
+  color: rgba(250,246,241,0.4); transition: all var(--fast);
+}
+.program-row:hover .program-tag {
+  border-color: rgba(139,105,20,0.3); color: var(--bronze-light);
+}
+.program-cta {
+  display: inline-block; margin-top: 24px;
+  font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(250,246,241,0.35); transition: color var(--fast);
+  padding-bottom: 2px; border-bottom: 1px solid rgba(250,246,241,0.15);
+}
+.program-cta:hover { color: var(--bronze-light); border-color: var(--bronze-light); }
+/* Alternate: image right on even rows */
+.program-row:nth-child(even) .program-visual { order: 2; }
+.program-row:nth-child(even) .program-content { order: 1; }
+
+/* ═══════════════════════════════════════
+   TRAINERS — HORIZONTAL SPLIT CARDS
+   ═══════════════════════════════════════ */
+.trainers-section {
+  padding: 100px 0 0;
+  background: var(--cream);
+}
+.trainers-header {
+  padding: 0 60px 60px;
+  max-width: 1200px; margin: 0 auto;
+}
+.trainer-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 480px;
+}
+.trainer-row:nth-child(even) .trainer-img { order: 2; }
+.trainer-row:nth-child(even) .trainer-info { order: 1; }
+.trainer-img {
+  position: relative; overflow: hidden;
+}
+.trainer-img-bg {
+  width: 100%; height: 100%; min-height: 480px;
+  transition: transform 0.6s var(--ease);
+}
+.trainer-row:nth-child(1) .trainer-img-bg {
+  background: linear-gradient(160deg, #b8a48e 0%, #9c8b78 100%);
+}
+.trainer-row:nth-child(2) .trainer-img-bg {
+  background: linear-gradient(160deg, #c8b8a4 0%, #a89486 100%);
+}
+.trainer-row:nth-child(3) .trainer-img-bg {
+  background: linear-gradient(160deg, #bca88e 0%, #a0907c 100%);
+}
+.trainer-row:hover .trainer-img-bg { transform: scale(1.03); }
+.trainer-info {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 60px;
+  background: var(--cream);
+}
+.trainer-row:nth-child(even) .trainer-info { background: var(--cream-dark); }
+.trainer-role {
+  font-size: 10px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--bronze); margin-bottom: 12px;
+}
+.trainer-name {
+  font-family: var(--body); font-size: 28px; font-weight: 600;
+  color: var(--espresso); margin-bottom: 16px; letter-spacing: -0.5px;
+}
+.trainer-bio {
+  font-size: 14px; font-weight: 300; color: var(--warm-gray);
+  line-height: 1.85; margin-bottom: 24px; max-width: 400px;
+}
+.trainer-certs {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.trainer-cert {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.5px;
+  padding: 5px 14px; border: 1px solid var(--border); color: var(--warm-gray);
+}
+
+/* ═══════════════════════════════════════
+   PRICING — SINGLE COLUMN EDITORIAL
+   ═══════════════════════════════════════ */
+.pricing-section {
+  padding: 100px 60px;
+  background: var(--cream);
+}
+.pricing-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+.pricing-header {
+  max-width: 600px;
+  margin-bottom: 60px;
+}
+.pricing-header .section-label { color: var(--bronze); }
+.pricing-header .section-title { margin-bottom: 16px; }
+.pricing-header .section-desc { margin-bottom: 24px; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+}
+.price-card {
+  padding: 48px 36px;
+  border-right: 1px solid var(--border);
+  transition: background 0.5s var(--ease), border-color 0.5s var(--ease);
+  position: relative;
+}
+.price-card:last-child { border-right: none; }
+.price-tier {
+  font-size: 10px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--bronze); margin-bottom: 24px;
+  transition: color 0.5s var(--ease);
+}
+.price-amount {
+  font-family: var(--serif); font-size: 44px; font-weight: 300;
+  color: var(--espresso); margin-bottom: 4px;
+  transition: color 0.5s var(--ease);
+}
+.price-amount small {
+  font-size: 15px; font-weight: 400; color: var(--warm-gray);
+  transition: color 0.5s var(--ease);
+}
+.price-sessions {
+  font-size: 13px; color: var(--warm-gray); margin-bottom: 8px;
+  transition: color 0.5s var(--ease);
+}
+.price-per {
+  font-size: 12px; color: var(--warm-gray-light); margin-bottom: 36px;
+  transition: color 0.5s var(--ease);
+}
+.price-features { list-style: none; margin-bottom: 40px; }
+.price-features li {
+  font-size: 13px; color: var(--espresso-light);
+  padding: 10px 0; border-bottom: 1px solid var(--border-light);
+  padding-left: 16px; position: relative;
+  transition: color 0.5s var(--ease), border-color 0.5s var(--ease);
+}
+.price-features li::before {
+  content: ''; position: absolute; left: 0; top: 16px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--bronze);
+  transition: background 0.5s var(--ease);
+}
+.price-btn {
+  display: inline-block;
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  padding: 14px 32px; border: 1px solid var(--espresso);
+  color: var(--espresso); transition: all 0.5s var(--ease);
+}
+.price-btn:hover { background: var(--espresso); color: var(--cream); }
+
+/* Hover → dark takeover */
+.price-card:hover {
+  background: var(--espresso);
+  border-color: var(--espresso);
+}
+.price-card:hover .price-tier { color: var(--bronze-light); }
+.price-card:hover .price-amount { color: var(--cream); }
+.price-card:hover .price-amount small { color: rgba(250,246,241,0.4); }
+.price-card:hover .price-sessions,
+.price-card:hover .price-per { color: rgba(250,246,241,0.45); }
+.price-card:hover .price-features li {
+  color: rgba(250,246,241,0.6); border-color: rgba(250,246,241,0.08);
+}
+.price-card:hover .price-features li::before { background: var(--bronze-light); }
+.price-card:hover .price-btn {
+  border-color: var(--bronze); background: var(--bronze); color: var(--cream);
+}
+.price-card:hover .price-btn:hover { background: var(--bronze-light); }
+
+/* ═══════════════════════════════════════
+   GALLERY — HORIZONTAL FILMSTRIP
+   ═══════════════════════════════════════ */
+.gallery-section { background: var(--cream-dark); padding: 100px 0; overflow: hidden; }
+.gallery-header {
+  padding: 0 60px; max-width: 1200px; margin: 0 auto 48px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.gallery-hint {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--warm-gray-light);
+}
+.gallery-hint-arrow {
+  display: inline-block;
+  animation: hintSlide 1.5s ease-in-out infinite;
+}
+@keyframes hintSlide {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+.gallery-strip {
+  display: flex; gap: 12px;
+  padding: 0 60px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+.gallery-strip::-webkit-scrollbar { display: none; }
+.gallery-item {
+  flex: 0 0 380px; height: 480px;
+  scroll-snap-align: start;
+  position: relative; overflow: hidden;
+  transition: flex 0.5s var(--ease);
+}
+.gallery-item:hover { flex: 0 0 520px; }
+.gallery-item-bg {
+  width: 100%; height: 100%;
+  transition: transform 0.6s var(--ease);
+}
+.gallery-item:nth-child(1) .gallery-item-bg { background: linear-gradient(160deg, #bca88e, #a0907c); }
+.gallery-item:nth-child(2) .gallery-item-bg { background: linear-gradient(160deg, #c8b8a4, #b0a090); }
+.gallery-item:nth-child(3) .gallery-item-bg { background: linear-gradient(160deg, #b8a48e, #9c8b78); }
+.gallery-item:nth-child(4) .gallery-item-bg { background: linear-gradient(160deg, #d4c5b2, #bca88e); }
+.gallery-item:nth-child(5) .gallery-item-bg { background: linear-gradient(160deg, #c0b0a0, #a89888); }
+.gallery-item:nth-child(6) .gallery-item-bg { background: linear-gradient(160deg, #d0c0b0, #b8a898); }
+.gallery-item:hover .gallery-item-bg { transform: scale(1.05); }
+.gallery-item-label {
+  position: absolute; bottom: 24px; left: 24px;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: white; opacity: 0; transform: translateY(8px);
+  transition: all var(--transition); z-index: 2;
+}
+.gallery-item::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(44,24,16,0.4) 0%, transparent 50%);
+  opacity: 0; transition: opacity var(--transition);
+}
+.gallery-item:hover::after { opacity: 1; }
+.gallery-item:hover .gallery-item-label { opacity: 1; transform: none; }
+
+/* Lightbox */
+.lightbox {
+  display: none; position: fixed; inset: 0;
+  background: rgba(44,24,16,0.95); z-index: 9000;
+  justify-content: center; align-items: center;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.lightbox.open { display: flex; opacity: 1; }
+.lightbox-content { position: relative; }
+.lightbox-img {
+  width: 70vw; max-width: 900px; height: 55vh;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 16px; color: rgba(255,255,255,0.2); letter-spacing: 4px;
+}
+.lightbox-img-bg { width: 100%; height: 100%; background: linear-gradient(135deg,#c4b5a4,#a0907c); }
+.lightbox-close {
+  position: absolute; top: -48px; right: 0;
+  color: var(--cream); font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase; font-family: var(--body); transition: color var(--fast);
+}
+.lightbox-close:hover { color: var(--bronze-light); }
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  color: var(--cream); font-size: 24px; padding: 16px; transition: color var(--fast);
+}
+.lightbox-nav:hover { color: var(--bronze-light); }
+.lightbox-prev { left: -64px; }
+.lightbox-next { right: -64px; }
+.lightbox-counter {
+  text-align: center; margin-top: 16px;
+  font-size: 12px; color: rgba(250,246,241,0.35); letter-spacing: 2px;
+}
+
+/* ═══════════════════════════════════════
+   REVIEWS — LARGE EDITORIAL QUOTE
+   ═══════════════════════════════════════ */
+.reviews-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+}
+.reviews-left {
+  background: var(--espresso);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 60px;
+}
+.reviews-left .section-label { color: var(--bronze-light); }
+.reviews-left .section-title { color: var(--cream); }
+.reviews-nav { display: flex; gap: 8px; margin-top: 40px; }
+.reviews-nav button {
+  width: 48px; height: 48px;
+  border: 1px solid rgba(250,246,241,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: rgba(250,246,241,0.5); transition: all var(--fast);
+}
+.reviews-nav button:hover { border-color: var(--bronze); color: var(--bronze-light); }
+.reviews-dots {
+  display: flex; gap: 8px; margin-top: 24px;
+}
+.reviews-dot {
+  width: 24px; height: 2px; background: rgba(250,246,241,0.15); transition: all var(--transition);
+}
+.reviews-dot.active { width: 40px; background: var(--bronze); }
+
+.reviews-right {
+  background: var(--cream-dark);
+  display: flex; align-items: center;
+  overflow: hidden;
+}
+.reviews-track-wrapper { width: 100%; overflow: hidden; }
+.reviews-track { display: flex; transition: transform 0.5s var(--ease); }
+.review-slide {
+  flex: 0 0 100%;
+  padding: 80px 60px;
+}
+.review-quote-mark {
+  font-family: var(--serif); font-size: 72px; font-weight: 300;
+  color: var(--bronze); opacity: 0.25; line-height: 1; margin-bottom: 16px;
+}
+.review-text {
+  font-family: var(--body); font-size: clamp(17px, 2vw, 22px);
+  font-weight: 300;
+  color: var(--espresso); line-height: 1.8; margin-bottom: 36px;
+}
+.review-author-name {
+  font-size: 14px; font-weight: 500; color: var(--espresso); margin-bottom: 4px;
+}
+.review-author-detail {
+  font-size: 12px; color: var(--warm-gray); letter-spacing: 0.5px;
+}
+
+/* ═══════════════════════════════════════
+   FAQ — FULL WIDTH MINIMAL
+   ═══════════════════════════════════════ */
+.faq-section {
+  padding: 100px 60px;
+  background: var(--cream);
+}
+.faq-inner {
+  max-width: 800px; margin: 0 auto;
+}
+.faq-header { text-align: center; margin-bottom: 60px; }
+.faq-header .section-desc { max-width: 480px; margin: 0 auto; }
+
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-question {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 0; font-family: var(--body); font-size: 15px; font-weight: 500;
+  color: var(--espresso); text-align: left; transition: color var(--fast);
+}
+.faq-question:hover { color: var(--bronze); }
+.faq-icon {
+  font-size: 18px; font-weight: 300; color: var(--warm-gray);
+  transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-answer-inner {
+  padding-bottom: 24px; font-size: 14px; font-weight: 300;
+  color: var(--warm-gray); line-height: 1.85;
+}
+
+/* ═══════════════════════════════════════
+   CONTACT — SPLIT
+   ═══════════════════════════════════════ */
+.contact-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.contact-left {
+  background: var(--espresso);
+  padding: 100px 60px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.contact-left .section-label { color: var(--bronze-light); }
+.contact-left .section-title { color: var(--cream); margin-bottom: 48px; }
+
+.contact-item { margin-bottom: 36px; }
+.contact-item-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--bronze-light); margin-bottom: 10px;
+}
+.contact-item-text {
+  font-size: 14.5px; font-weight: 300; color: rgba(250,246,241,0.65); line-height: 1.8;
+}
+.contact-item-text a { transition: color var(--fast); }
+.contact-item-text a:hover { color: var(--bronze-light); }
+
+.contact-right {
+  position: relative;
+  background: var(--cream-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; letter-spacing: 2px;
+  color: var(--warm-gray-light); text-transform: uppercase;
+  min-height: 500px;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════ */
+.footer {
+  background: var(--espresso);
+  border-top: 1px solid rgba(250,246,241,0.04);
+  padding: 36px 48px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-logo {
+  font-family: var(--serif); font-size: 14px; font-weight: 600;
+  letter-spacing: 4px; color: rgba(250,246,241,0.3); text-transform: uppercase;
+}
+.footer-copy { font-size: 11px; color: rgba(250,246,241,0.2); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a {
+  font-size: 11px; color: rgba(250,246,241,0.3); transition: color var(--fast);
+}
+.footer-links a:hover { color: var(--bronze-light); }
+
+/* ═══════════════════════════════════════
+   KAKAO FLOATING
+   ═══════════════════════════════════════ */
+.kakao-float {
+  position: fixed; bottom: 28px; right: 28px; z-index: 8000;
+  width: 56px; height: 56px; background: #FEE500; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  transition: transform var(--fast), opacity var(--fast);
+}
+.kakao-float:hover { transform: scale(1.08); }
+.kakao-float.hidden { opacity: 0; pointer-events: none; }
+.kakao-float svg { width: 26px; height: 26px; }
+
+/* ═══════════════════════════════════════
+   WIDESCREEN
+   ═══════════════════════════════════════ */
+@media (min-width: 1400px) {
+  .hero-left { padding: 100px 80px; }
+  .philosophy-left { padding: 80px; }
+  .philosophy-right { padding: 140px 80px; }
+  .programs-header { padding: 120px 80px 60px; }
+  .program-content { padding: 80px; }
+  .trainers-header { padding: 0 80px 60px; }
+  .trainer-info { padding: 80px; }
+  .pricing-section { padding: 120px 80px; }
+  .gallery-header { padding: 0 80px; }
+  .gallery-strip { padding: 0 80px; }
+  .reviews-left { padding: 100px 80px; }
+  .review-slide { padding: 100px 80px; }
+  .faq-section { padding: 120px 80px; }
+  .contact-left { padding: 120px 80px; }
+  .nav { padding: 28px 60px; }
+  .nav.scrolled { padding: 18px 60px; }
+  .footer { padding: 36px 60px; }
+  .insta-section { padding: 100px 80px; }
+  .theme-toggle { right: 28px; }
+  .sec-dots { right: 28px; }
+}
+
+/* ═══════════════════════════════════════
+   MOBILE
+   ═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+
+  .nav { padding: 16px 20px; }
+  .nav.scrolled { padding: 12px 20px; }
+  .nav.nav-hidden { transform: translateY(-100%); }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  /* Nav over hero dark band on mobile */
+  .nav:not(.scrolled) .nav-logo { color: var(--cream); }
+  .nav:not(.scrolled) .nav-hamburger span { background: var(--cream); }
+
+  /* Hero → cream fullscreen, dark panel hidden, nav band extends */
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 100svh;
+    position: relative;
+  }
+  .hero-left {
+    padding: 0 24px 60px;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to bottom, var(--espresso) 0%, var(--espresso) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-left::after { font-size: 160px; right: 20px; }
+  .hero-right { display: none; }
+  .hero-scroll-hint { display: none; }
+  .hero-label { position: relative; z-index: 1; }
+
+  /* Philosophy → stack */
+  .philosophy {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .philosophy-left {
+    position: relative; top: auto; height: auto;
+    padding: 72px 24px 48px;
+  }
+  .philosophy-right { padding: 0 24px 72px; background: var(--cream); }
+  .phil-item { grid-template-columns: 40px 1fr; gap: 16px; padding: 32px 0; }
+  .phil-num { font-size: 24px; }
+
+  /* Programs → stack */
+  .programs-header { padding: 72px 24px 40px; }
+  .program-row { grid-template-columns: 1fr; }
+  .program-visual { padding: 48px 24px; min-height: 160px; }
+  .program-content { padding: 32px 24px 48px; }
+  .program-row:nth-child(even) .program-visual { order: 1; }
+  .program-row:nth-child(even) .program-content { order: 2; }
+
+  /* Trainers → stack */
+  .trainers-section { padding: 72px 0 0; }
+  .trainers-header { padding: 0 24px 40px; }
+  .trainer-row { grid-template-columns: 1fr; }
+  .trainer-img-bg { min-height: 320px; }
+  .trainer-info { padding: 36px 24px 48px; }
+  .trainer-row:nth-child(even) .trainer-img { order: 1; }
+  .trainer-row:nth-child(even) .trainer-info { order: 2; }
+
+  /* Pricing → stack + touch active states */
+  .pricing-section { padding: 72px 24px; }
+  .pricing-header { max-width: none; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .price-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .price-card:last-child { border-bottom: none; }
+  .price-card:active {
+    background: var(--espresso);
+    border-color: var(--espresso);
+  }
+  .price-card:active .price-tier { color: var(--bronze-light); }
+  .price-card:active .price-amount { color: var(--cream); }
+  .price-card:active .price-amount small { color: rgba(250,246,241,0.4); }
+  .price-card:active .price-sessions,
+  .price-card:active .price-per { color: rgba(250,246,241,0.45); }
+  .price-card:active .price-features li {
+    color: rgba(250,246,241,0.6); border-color: rgba(250,246,241,0.08);
+  }
+  .price-card:active .price-features li::before { background: var(--bronze-light); }
+  .price-card:active .price-btn {
+    border-color: var(--bronze); background: var(--bronze); color: var(--cream);
+  }
+
+  /* Gallery → smaller items */
+  .gallery-section { padding: 72px 0; }
+  .gallery-header { padding: 0 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .gallery-strip { padding: 0 24px; gap: 8px; }
+  .gallery-item { flex: 0 0 280px; height: 360px; }
+  .gallery-item:hover { flex: 0 0 280px; }
+
+  /* Lightbox mobile */
+  .lightbox-img { width: 90vw; height: 50vh; }
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+  .lightbox-close { top: -36px; }
+
+  /* Reviews → stack */
+  .reviews-section { grid-template-columns: 1fr; }
+  .reviews-left { padding: 72px 24px 48px; }
+  .review-slide { padding: 48px 24px; }
+  .review-text { font-size: 18px; }
+
+  /* FAQ */
+  .faq-section { padding: 72px 24px; }
+
+  /* Contact → stack */
+  .contact-section { grid-template-columns: 1fr; }
+  .contact-left { padding: 72px 24px; }
+  .contact-right { min-height: 300px; }
+
+  /* Footer */
+  .footer { padding: 28px 20px; }
+  .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+  .footer-links { justify-content: center; }
+
+  .kakao-float { display: none; }
+  .mobile-cta-bar { display: block; }
+  body { padding-bottom: 72px; }
+
+  /* New features mobile */
+  .sec-dots { display: none; }
+  .theme-toggle { top: auto; bottom: 90px; right: 16px; transform: none; width: 36px; height: 36px; font-size: 14px; }
+  .back-top { display: none; }
+  .toast { bottom: 84px; max-width: calc(100% - 32px); }
+  .stats-band { grid-template-columns: repeat(2, 1fr); }
+  .stat-item { padding: 32px 16px; }
+  .stat-item:nth-child(2) { border-right: none; }
+  .stat-item:nth-child(3) { border-top: 1px solid rgba(250,246,241,0.06); }
+  .mq-item { font-size: 13px; padding: 0 16px; }
+  .insta-section { padding: 72px 24px; }
+}
+
+/* ═══════════════════════════════════════
+   MOBILE PHONE CTA
+   ═══════════════════════════════════════ */
+.mobile-cta-bar {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 8500;
+  background: var(--espresso);
+  padding: 12px 20px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+.mobile-cta-inner {
+  display: flex; gap: 10px;
+}
+.mobile-cta-phone, .mobile-cta-kakao {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.5px;
+  border-radius: 0;
+  transition: opacity var(--fast);
+}
+.mobile-cta-phone {
+  background: var(--bronze); color: var(--cream);
+}
+.mobile-cta-kakao {
+  background: #FEE500; color: #3C1E1E;
+}
+.mobile-cta-phone:active, .mobile-cta-kakao:active { opacity: 0.85; }
+.mobile-cta-phone svg, .mobile-cta-kakao svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════ */
+[data-theme="dark"] .nav.scrolled { background: rgba(26,18,16,0.95); }
+[data-theme="dark"] .nav-logo,
+[data-theme="dark"] .nav.scrolled .nav-logo { color: var(--fg); }
+[data-theme="dark"] .nav-links a,
+[data-theme="dark"] .nav.scrolled .nav-links a { color: var(--fg); }
+[data-theme="dark"] .nav-hamburger span { background: var(--fg); }
+[data-theme="dark"] .hero-left { background: var(--bg); }
+[data-theme="dark"] .hero-left::after { color: var(--fg); }
+[data-theme="dark"] .hero-title { color: var(--fg); }
+[data-theme="dark"] .hero-btn { border-color: var(--fg); color: var(--fg); }
+[data-theme="dark"] .hero-btn:hover { background: var(--fg); color: var(--bg); }
+[data-theme="dark"] .philosophy-left { background: var(--bg); }
+[data-theme="dark"] .philosophy-left .section-title { color: var(--fg); }
+[data-theme="dark"] .philosophy-right { background: var(--bg-alt); }
+[data-theme="dark"] .phil-title { color: var(--fg); }
+[data-theme="dark"] .phil-desc { color: var(--dim); }
+[data-theme="dark"] .phil-item { border-color: var(--border); }
+[data-theme="dark"] .trainers-section { background: var(--bg); }
+[data-theme="dark"] .trainer-info { background: var(--bg); }
+[data-theme="dark"] .trainer-row:nth-child(even) .trainer-info { background: var(--bg-alt); }
+[data-theme="dark"] .trainer-name { color: var(--fg); }
+[data-theme="dark"] .trainer-bio { color: var(--dim); }
+[data-theme="dark"] .trainer-cert { border-color: var(--border); color: var(--dim); }
+[data-theme="dark"] .pricing-section { background: var(--bg); }
+[data-theme="dark"] .section-title { color: var(--fg); }
+[data-theme="dark"] .section-desc { color: var(--dim); }
+[data-theme="dark"] .price-card { border-color: var(--border); }
+[data-theme="dark"] .price-amount { color: var(--fg); }
+[data-theme="dark"] .price-amount small { color: var(--dim); }
+[data-theme="dark"] .price-sessions,
+[data-theme="dark"] .price-per { color: var(--dim); }
+[data-theme="dark"] .price-features li { color: var(--fg-light); border-color: var(--border-light); }
+[data-theme="dark"] .price-btn { border-color: var(--fg); color: var(--fg); }
+[data-theme="dark"] .pricing-grid { border-color: var(--border); }
+[data-theme="dark"] .gallery-section { background: var(--bg-alt); }
+[data-theme="dark"] .reviews-right { background: var(--bg-alt); }
+[data-theme="dark"] .review-text { color: var(--fg); }
+[data-theme="dark"] .review-author-name { color: var(--fg); }
+[data-theme="dark"] .review-author-detail { color: var(--dim); }
+[data-theme="dark"] .faq-section { background: var(--bg); }
+[data-theme="dark"] .faq-question { color: var(--fg); }
+[data-theme="dark"] .faq-answer-inner { color: var(--dim); }
+[data-theme="dark"] .faq-item { border-color: var(--border); }
+[data-theme="dark"] .footer { background: #0E0A08; }
+[data-theme="dark"] .trial-badge { border-color: var(--bronze); }
+[data-theme="dark"] .bronze-line { background: var(--bronze); }
+
+.theme-toggle {
+  position: fixed; top: 50%; right: 20px; z-index: 1001;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; line-height: 1;
+  transition: all var(--fast);
+  color: var(--fg);
+}
+.theme-toggle:hover { border-color: var(--bronze); color: var(--bronze); }
+
+/* ═══════════════════════════════════════
+   SCROLL PROGRESS BAR
+   ═══════════════════════════════════════ */
+.scroll-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px; z-index: 1002;
+  background: var(--bronze);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════
+   SECTION DOT NAV
+   ═══════════════════════════════════════ */
+.sec-dots {
+  position: fixed; right: 20px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.sec-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--dim-light);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.sec-dot.active { background: var(--bronze); transform: scale(1.3); }
+.sec-dot-label {
+  position: absolute; right: 20px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--dim); white-space: nowrap;
+  opacity: 0; transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.sec-dot:hover .sec-dot-label { opacity: 1; }
+
+/* ═══════════════════════════════════════
+   BACK TO TOP
+   ═══════════════════════════════════════ */
+.back-top {
+  position: fixed; bottom: 28px; left: 28px; z-index: 8000;
+  width: 44px; height: 44px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--dim);
+  opacity: 0; visibility: hidden;
+  transition: all var(--fast);
+}
+.back-top.visible { opacity: 1; visibility: visible; }
+.back-top:hover { border-color: var(--bronze); color: var(--bronze); }
+
+/* ═══════════════════════════════════════
+   TOAST NOTIFICATION
+   ═══════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 100px; left: 50%; z-index: 8500;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--espresso);
+  color: var(--cream);
+  padding: 16px 48px 16px 24px;
+  font-size: 13px; letter-spacing: 0.3px; line-height: 1.5;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  opacity: 0; visibility: hidden;
+  transition: all 0.5s var(--ease);
+  max-width: 420px; width: calc(100% - 40px);
+}
+.toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.toast-close {
+  position: absolute; top: 8px; right: 12px;
+  color: rgba(250,246,241,0.4); font-size: 18px;
+  font-family: var(--body); transition: color var(--fast);
+}
+.toast-close:hover { color: var(--cream); }
+.toast-highlight { color: var(--bronze-light); font-weight: 500; }
+
+/* ═══════════════════════════════════════
+   COUNTER ANIMATION
+   ═══════════════════════════════════════ */
+.stats-band {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--espresso); border-top: 1px solid rgba(250,246,241,0.06);
+}
+.stat-item {
+  padding: 48px 24px; text-align: center;
+  border-right: 1px solid rgba(250,246,241,0.06);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--serif); font-size: clamp(36px, 4vw, 52px);
+  font-weight: 300; color: var(--cream); line-height: 1;
+}
+.stat-num .stat-suffix { font-size: 0.5em; color: var(--bronze-light); }
+.stat-label {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(250,246,241,0.35); margin-top: 12px;
+}
+
+/* ═══════════════════════════════════════
+   MARQUEE
+   ═══════════════════════════════════════ */
+.marquee {
+  overflow: hidden; padding: 20px 0;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.mq-inner {
+  display: flex; gap: 0; width: max-content;
+  animation: mqScroll 30s linear infinite;
+}
+.marquee:hover .mq-inner { animation-play-state: paused; }
+.mq-item {
+  font-family: var(--serif); font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 300; color: var(--dim-light);
+  white-space: nowrap; padding: 0 24px;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.mq-dot { color: var(--bronze); padding: 0 8px; font-size: 8px; }
+@keyframes mqScroll { to { transform: translateX(-50%); } }
+
+/* ═══════════════════════════════════════
+   INSTAGRAM SECTION
+   ═══════════════════════════════════════ */
+.insta-section {
+  padding: 100px 60px;
+  background: var(--bg);
+  text-align: center;
+}
+.insta-inner { max-width: 600px; margin: 0 auto; }
+.insta-handle {
+  font-family: var(--serif); font-size: 24px; font-weight: 300;
+  color: var(--fg); margin-bottom: 12px;
+}
+.insta-desc {
+  font-size: 13px; color: var(--dim); line-height: 1.8; margin-bottom: 28px;
+}
+.insta-btn {
+  display: inline-block;
+  font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  padding: 14px 40px; border: 1px solid var(--bronze);
+  color: var(--bronze); transition: all var(--fast);
+}
+.insta-btn:hover { background: var(--bronze); color: var(--cream); }
+
+/* ═══════════════════════════════════════
+   CURSOR LABEL
+   ═══════════════════════════════════════ */
+.cursor-label {
+  display: none;
+  position: fixed;
+  pointer-events: none; z-index: 100000;
+  font-family: var(--body); font-size: 9px;
+  color: var(--fg); letter-spacing: 2px; text-transform: uppercase;
+  opacity: 0; transition: opacity 0.25s ease;
+  font-weight: 500;
+}
+.cursor-label.show { opacity: 1; }
+@media (pointer: fine) { .cursor-label { display: block; } }
+
+/* ═══════════════════════════════════════
+   3D TILT + MAGNETIC
+   ═══════════════════════════════════════ */
+.tilt-card { transform-style: preserve-3d; will-change: transform; }
+.mag-btn { transition: transform 0.4s var(--ease); }
+
+/* ═══════════════════════════════════════
+   CONTAIN OPTIMIZATION
+   ═══════════════════════════════════════ */
+.price-card, .gallery-item, .review-slide, .faq-item { contain: layout style paint; }
+
+/* ═══════════════════════════════════════
+   HOVER:NONE TOUCH FEEDBACK
+   ═══════════════════════════════════════ */
+@media (hover: none) {
+  .hero-btn:active, .nav-cta:active, .program-cta:active,
+  .price-btn:active, .insta-btn:active { transform: scale(0.96); }
+  .gallery-item:active { opacity: 0.85; }
+  .faq-question:active { color: var(--bronze); }
+}
+
+/* ═══════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════ */
+.skip-link {
+  position: absolute; top: -60px; left: 0;
+  background: var(--bronze); color: var(--cream);
+  padding: 12px 24px; z-index: 100000;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.5px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 0; }
+
+*:focus-visible {
+  outline: 2px solid var(--bronze);
+  outline-offset: 2px;
+}
+/* Dark sections: brighter focus ring */
+.programs-section *:focus-visible,
+.reviews-left *:focus-visible,
+.contact-left *:focus-visible,
+.footer *:focus-visible {
+  outline-color: var(--bronze-light);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal, .reveal-left, .reveal-right {
+    opacity: 1 !important; transform: none !important;
+  }
+  .loader { display: none !important; }
+  .grain { display: none !important; }
+  .mq-inner { animation: none !important; }
+}
+
+/* Print */
+@media print {
+  .loader, .grain, .cursor-dot, .cursor-ring, .cursor-label, .nav, .mobile-menu,
+  .kakao-float, .mobile-cta-bar, .hero-scroll-hint, .lightbox, .hero-right,
+  .scroll-bar, .sec-dots, .theme-toggle, .back-top, .toast { display: none !important; }
+  body { background: white; color: black; font-size: 12pt; padding: 0; }
+  * { background: transparent !important; box-shadow: none !important; }
+  .mq-inner { animation: none !important; }
+  a[href]::after { content: ' (' attr(href) ')'; font-size: 9pt; color: #666; }
+}
+
+/* Asset Protection */
+img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- SKIP LINK -->
+<a href="#programs" class="skip-link">메인 콘텐츠로 이동</a>
+
+<!-- NOSCRIPT -->
+<noscript>
+  <style>.loader,.grain{display:none!important}.reveal,.reveal-left,.reveal-right{opacity:1!important;transform:none!important}.mq-inner{animation:none!important}.scroll-bar,.sec-dots,.theme-toggle,.back-top,.toast,.cursor-label{display:none!important}</style>
+  <div style="padding:20px;background:#F0EAE0;text-align:center;font-family:sans-serif;color:#2C1810;font-size:14px">
+    이 웹사이트는 JavaScript가 필요합니다. 브라우저 설정에서 JavaScript를 활성화해 주세요.
+  </div>
+</noscript>
+
+<!-- GRAIN -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-panel loader-panel-l"></div>
+  <div class="loader-panel loader-panel-r"></div>
+  <div class="loader-content">
+    <div class="loader-brand">FORGE</div>
+    <div class="loader-sub">Private Training Studio</div>
+    <div class="loader-line"></div>
+  </div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+<div class="cursor-label" id="cursorLabel"></div>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-bar" id="scrollBar"></div>
+
+<!-- THEME TOGGLE -->
+<button class="theme-toggle" id="themeToggle" aria-label="다크모드 전환">&#9790;</button>
+
+<!-- SECTION DOT NAV -->
+<div class="sec-dots" id="secDots">
+  <a href="#home" class="sec-dot active"><span class="sec-dot-label">Home</span></a>
+  <a href="#philosophy" class="sec-dot"><span class="sec-dot-label">Philosophy</span></a>
+  <a href="#programs" class="sec-dot"><span class="sec-dot-label">Programs</span></a>
+  <a href="#trainers" class="sec-dot"><span class="sec-dot-label">Trainers</span></a>
+  <a href="#pricing" class="sec-dot"><span class="sec-dot-label">Pricing</span></a>
+  <a href="#gallery" class="sec-dot"><span class="sec-dot-label">Gallery</span></a>
+  <a href="#contact" class="sec-dot"><span class="sec-dot-label">Contact</span></a>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" aria-label="맨 위로 이동">&uarr;</button>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="mainNav">
+  <a href="#" class="nav-logo">Forge</a>
+  <div class="nav-links">
+    <a href="#philosophy">Philosophy</a>
+    <a href="#programs">Programs</a>
+    <a href="#trainers">Trainers</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+  <button class="nav-hamburger" aria-label="메뉴 열기" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu">
+  <nav class="mobile-menu-nav">
+    <a href="#philosophy" class="mobile-menu-item">
+      <span class="menu-num">01</span>
+      <span class="menu-label">Philosophy</span>
+    </a>
+    <a href="#programs" class="mobile-menu-item">
+      <span class="menu-num">02</span>
+      <span class="menu-label">Programs</span>
+    </a>
+    <a href="#trainers" class="mobile-menu-item">
+      <span class="menu-num">03</span>
+      <span class="menu-label">Trainers</span>
+    </a>
+    <a href="#pricing" class="mobile-menu-item">
+      <span class="menu-num">04</span>
+      <span class="menu-label">Pricing</span>
+    </a>
+    <a href="#gallery" class="mobile-menu-item">
+      <span class="menu-num">05</span>
+      <span class="menu-label">Gallery</span>
+    </a>
+    <a href="#contact" class="mobile-menu-item menu-cta">
+      <span class="menu-label">Contact Us</span>
+    </a>
+  </nav>
+  <div class="mobile-menu-footer">
+    <div class="mobile-menu-footer-left">
+      02-1234-5678<br>
+      Seoul, Gangnam
+    </div>
+    <div class="mobile-menu-footer-right">Forge</div>
+  </div>
+</div>
+
+<!-- ═══════════ HERO — SPLIT ═══════════ -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-label">Private Training Studio</p>
+    <h1 class="hero-title">Strength is<br><em>Refined,</em><br>Not Forced</h1>
+    <p class="hero-sub">프라이빗 트레이닝의 새로운 기준.<br>당신만을 위한 공간에서, 과학적 근거에 기반한 체계적 프로그램을 경험하세요.</p>
+    <a href="#programs" class="hero-btn">View Programs</a>
+    <p class="hero-trial">첫 방문 무료 체험 &middot; <a href="tel:02-1234-5678">02-1234-5678</a></p>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-inner">
+      <div class="hero-right-texture"></div>
+    </div>
+    <span class="hero-right-label">Est. 2019</span>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════ PHILOSOPHY — STICKY SPLIT ═══════════ -->
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-left">
+    <p class="section-label">Our Philosophy</p>
+    <h2 class="section-title">단련은 조용히,<br>변화는 분명하게</h2>
+    <div class="bronze-line"></div>
+    <p class="section-desc">FORGE는 오직 한 사람만을 위한 프라이빗 스튜디오입니다. 과학적 근거와 개별 맞춤 프로그래밍으로, 진정한 변화를 만들어갑니다.</p>
+  </div>
+  <div class="philosophy-right">
+    <div class="phil-item reveal">
+      <div class="phil-num">01</div>
+      <div>
+        <p class="phil-title">1:1 프라이빗 공간</p>
+        <p class="phil-desc">완전한 개인 공간에서 온전히 집중하는 트레이닝. 남의 시선을 의식하지 않고 오직 자신에게만 집중합니다.</p>
+      </div>
+    </div>
+    <div class="phil-item reveal">
+      <div class="phil-num">02</div>
+      <div>
+        <p class="phil-title">데이터 기반 프로그래밍</p>
+        <p class="phil-desc">체성분 분석, 움직임 평가, 주기적 측정을 통한 과학적 프로그래밍. 감이 아닌 데이터로 설계합니다.</p>
+      </div>
+    </div>
+    <div class="phil-item reveal">
+      <div class="phil-num">03</div>
+      <div>
+        <p class="phil-title">검증된 전문성</p>
+        <p class="phil-desc">국내외 자격을 갖춘 10년 이상 경력의 트레이너진. 운동학, 재활, 영양까지 통합적으로 접근합니다.</p>
+      </div>
+    </div>
+    <div class="phil-item reveal">
+      <div class="phil-num">04</div>
+      <div>
+        <p class="phil-title">지속 가능한 변화</p>
+        <p class="phil-desc">단기간 다이어트가 아닌, 라이프스타일의 전환. 습관이 바뀌면 몸은 자연스럽게 따라옵니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROGRAMS — ALTERNATING SPLIT ═══════════ -->
+<section class="programs-section" id="programs">
+  <div class="programs-header">
+    <p class="section-label reveal">Programs</p>
+    <h2 class="section-title reveal">맞춤 프로그램</h2>
+    <p class="section-desc reveal">목표와 체형에 따라 설계된 프로그램으로, 가장 효율적인 변화를 경험하세요.</p>
+  </div>
+  <div class="program-row reveal">
+    <div class="program-visual">
+      <span class="program-visual-num">01</span>
+      <span class="program-visual-icon">I</span>
+    </div>
+    <div class="program-content">
+      <h3 class="program-name">Body Recomposition</h3>
+      <p class="program-desc">체지방 감소와 근육량 증가를 동시에. 체성분 분석을 기반으로 영양 가이드와 함께 진행합니다. 무리한 식단이 아닌 지속 가능한 식습관 변화를 추구합니다.</p>
+      <div class="program-tags">
+        <span class="program-tag">체성분 분석</span>
+        <span class="program-tag">맞춤 영양</span>
+        <span class="program-tag">주 2~4회</span>
+      </div>
+      <a href="#contact" class="program-cta">무료 체험 신청 &rarr;</a>
+    </div>
+  </div>
+  <div class="program-row reveal">
+    <div class="program-visual">
+      <span class="program-visual-num">02</span>
+      <span class="program-visual-icon">II</span>
+    </div>
+    <div class="program-content">
+      <h3 class="program-name">Strength &amp; Performance</h3>
+      <p class="program-desc">근력 향상과 운동 수행 능력 극대화. 체계적인 주기화 프로그래밍을 적용합니다. 1RM 테스트를 통해 정확한 목표를 설정하고 단계별로 달성합니다.</p>
+      <div class="program-tags">
+        <span class="program-tag">주기화 훈련</span>
+        <span class="program-tag">1RM 테스트</span>
+        <span class="program-tag">모빌리티</span>
+      </div>
+      <a href="#contact" class="program-cta">무료 체험 신청 &rarr;</a>
+    </div>
+  </div>
+  <div class="program-row reveal">
+    <div class="program-visual">
+      <span class="program-visual-num">03</span>
+      <span class="program-visual-icon">III</span>
+    </div>
+    <div class="program-content">
+      <h3 class="program-name">Pain &amp; Rehabilitation</h3>
+      <p class="program-desc">만성 통증 관리와 부상 후 재활. 운동학적 평가를 통해 원인을 찾고, 교정 운동으로 안전하게 일상 복귀를 돕습니다.</p>
+      <div class="program-tags">
+        <span class="program-tag">움직임 평가</span>
+        <span class="program-tag">교정 운동</span>
+        <span class="program-tag">통증 관리</span>
+      </div>
+      <a href="#contact" class="program-cta">무료 체험 신청 &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TRAINERS — SPLIT ROWS ═══════════ -->
+<section class="trainers-section" id="trainers">
+  <div class="trainers-header">
+    <p class="section-label reveal">Trainers</p>
+    <h2 class="section-title reveal">전문 트레이너</h2>
+  </div>
+  <div class="trainer-row">
+    <div class="trainer-img">
+      <div class="trainer-img-bg"></div>
+    </div>
+    <div class="trainer-info reveal-right">
+      <p class="trainer-role">Head Trainer</p>
+      <h3 class="trainer-name">김도현</h3>
+      <p class="trainer-bio">NSCA-CSCS 인증 트레이너. 12년간 프로 운동선수부터 일반인까지 다양한 클라이언트의 목표 달성을 이끌어온 체력 전문가입니다. 개인의 체형과 목표에 맞는 최적의 프로그래밍을 설계합니다.</p>
+      <div class="trainer-certs">
+        <span class="trainer-cert">NSCA-CSCS</span>
+        <span class="trainer-cert">FMS Lv.2</span>
+        <span class="trainer-cert">NASM-CES</span>
+      </div>
+    </div>
+  </div>
+  <div class="trainer-row">
+    <div class="trainer-img">
+      <div class="trainer-img-bg"></div>
+    </div>
+    <div class="trainer-info reveal-left">
+      <p class="trainer-role">Senior Trainer</p>
+      <h3 class="trainer-name">이서영</h3>
+      <p class="trainer-bio">체형 교정과 재활 운동 전문. 물리치료학 석사 출신으로 근골격계 통증 관리에 깊은 전문성을 보유하고 있습니다. 움직임의 질을 높여 통증 없는 일상을 만듭니다.</p>
+      <div class="trainer-certs">
+        <span class="trainer-cert">ACSM-EP</span>
+        <span class="trainer-cert">물리치료학 석사</span>
+      </div>
+    </div>
+  </div>
+  <div class="trainer-row">
+    <div class="trainer-img">
+      <div class="trainer-img-bg"></div>
+    </div>
+    <div class="trainer-info reveal-right">
+      <p class="trainer-role">Trainer</p>
+      <h3 class="trainer-name">박준혁</h3>
+      <p class="trainer-bio">스트렝스 훈련과 컨디셔닝 전문. 파워리프팅 국가대표 출신으로 근력 향상 프로그래밍에 전문 지식을 갖추고 있습니다. 한계를 넘는 성취의 경험을 함께합니다.</p>
+      <div class="trainer-certs">
+        <span class="trainer-cert">NSCA-CPSS</span>
+        <span class="trainer-cert">파워리프팅 선수 출신</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STATS COUNTER ═══════════ -->
+<div class="stats-band" id="statsBand">
+  <div class="stat-item">
+    <p class="stat-num"><span data-count="2400">0</span><span class="stat-suffix">+</span></p>
+    <p class="stat-label">Total Sessions</p>
+  </div>
+  <div class="stat-item">
+    <p class="stat-num"><span data-count="97">0</span><span class="stat-suffix">%</span></p>
+    <p class="stat-label">Retention Rate</p>
+  </div>
+  <div class="stat-item">
+    <p class="stat-num"><span data-count="8">0</span><span class="stat-suffix">yr</span></p>
+    <p class="stat-label">Experience</p>
+  </div>
+  <div class="stat-item">
+    <p class="stat-num"><span data-count="350">0</span><span class="stat-suffix">+</span></p>
+    <p class="stat-label">Transformations</p>
+  </div>
+</div>
+
+<!-- ═══════════ PRICING ═══════════ -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header reveal">
+      <p class="section-label">Pricing</p>
+      <h2 class="section-title">멤버십 안내</h2>
+      <p class="section-desc">모든 멤버십은 1:1 프라이빗 세션으로 진행됩니다.</p>
+      <span class="trial-badge">첫 방문 무료 체험 세션 제공</span>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="price-card">
+        <p class="price-tier">Essential</p>
+        <p class="price-amount">55<small>만원</small></p>
+        <p class="price-sessions">월 8회 (주 2회)</p>
+        <p class="price-per">1회당 68,750원</p>
+        <ul class="price-features">
+          <li>1:1 맞춤 트레이닝 50분</li>
+          <li>체성분 분석 (월 1회)</li>
+          <li>운동 프로그램 설계</li>
+          <li>운동복 및 세면도구 제공</li>
+        </ul>
+        <a href="#contact" class="price-btn">상담 예약</a>
+      </div>
+      <div class="price-card">
+        <p class="price-tier">Premium</p>
+        <p class="price-amount">95<small>만원</small></p>
+        <p class="price-sessions">월 12회 (주 3회)</p>
+        <p class="price-per">1회당 79,167원</p>
+        <ul class="price-features">
+          <li>1:1 맞춤 트레이닝 60분</li>
+          <li>체성분 분석 (월 2회)</li>
+          <li>영양 컨설팅 포함</li>
+          <li>운동복 및 세면도구 제공</li>
+          <li>주차 지원</li>
+        </ul>
+        <a href="#contact" class="price-btn">상담 예약</a>
+      </div>
+      <div class="price-card">
+        <p class="price-tier">Intensive</p>
+        <p class="price-amount">150<small>만원</small></p>
+        <p class="price-sessions">월 20회 (주 5회)</p>
+        <p class="price-per">1회당 75,000원</p>
+        <ul class="price-features">
+          <li>1:1 맞춤 트레이닝 60분</li>
+          <li>체성분 분석 (주 1회)</li>
+          <li>영양 + 생활습관 관리</li>
+          <li>전 시설 프리패스</li>
+          <li>우선 예약 + 주차 지원</li>
+        </ul>
+        <a href="#contact" class="price-btn">상담 예약</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GALLERY — FILMSTRIP ═══════════ -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header">
+    <div>
+      <p class="section-label reveal">Gallery</p>
+      <h2 class="section-title reveal">시설 안내</h2>
+    </div>
+    <span class="gallery-hint reveal">Drag to explore <span class="gallery-hint-arrow">&rarr;</span></span>
+  </div>
+  <div class="gallery-strip reveal">
+    <div class="gallery-item" tabindex="0" role="button" aria-label="갤러리 이미지 1 확대" data-index="0">
+      <div class="gallery-item-bg"></div>
+      <span class="gallery-item-label">Training Room</span>
+    </div>
+    <div class="gallery-item" tabindex="0" role="button" aria-label="갤러리 이미지 2 확대" data-index="1">
+      <div class="gallery-item-bg"></div>
+      <span class="gallery-item-label">Equipment</span>
+    </div>
+    <div class="gallery-item" tabindex="0" role="button" aria-label="갤러리 이미지 3 확대" data-index="2">
+      <div class="gallery-item-bg"></div>
+      <span class="gallery-item-label">Lounge</span>
+    </div>
+    <div class="gallery-item" tabindex="0" role="button" aria-label="갤러리 이미지 4 확대" data-index="3">
+      <div class="gallery-item-bg"></div>
+      <span class="gallery-item-label">Recovery Zone</span>
+    </div>
+    <div class="gallery-item" tabindex="0" role="button" aria-label="갤러리 이미지 5 확대" data-index="4">
+      <div class="gallery-item-bg"></div>
+      <span class="gallery-item-label">Locker Room</span>
+    </div>
+    <div class="gallery-item" tabindex="0" role="button" aria-label="갤러리 이미지 6 확대" data-index="5">
+      <div class="gallery-item-bg"></div>
+      <span class="gallery-item-label">Entrance</span>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="갤러리 이미지 확대">
+  <button class="lightbox-close" aria-label="닫기">Close</button>
+  <button class="lightbox-nav lightbox-prev" aria-label="이전">&larr;</button>
+  <div class="lightbox-content">
+    <div class="lightbox-img">
+      <div class="lightbox-img-bg"></div>
+    </div>
+    <p class="lightbox-counter"><span id="lb-current">1</span> / <span id="lb-total">6</span></p>
+  </div>
+  <button class="lightbox-nav lightbox-next" aria-label="다음">&rarr;</button>
+</div>
+
+<!-- ═══════════ MARQUEE ═══════════ -->
+<div class="marquee" id="marquee">
+  <div class="mq-inner">
+    <span class="mq-item">Private Training</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Body Recomposition</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Strength</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Rehabilitation</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">1:1 Coaching</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Science-Based</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Forge Your Body</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Private Training</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Body Recomposition</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Strength</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Rehabilitation</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">1:1 Coaching</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Science-Based</span><span class="mq-dot">&middot;</span>
+    <span class="mq-item">Forge Your Body</span><span class="mq-dot">&middot;</span>
+  </div>
+</div>
+
+<!-- ═══════════ REVIEWS — SPLIT EDITORIAL ═══════════ -->
+<section class="reviews-section" id="reviews">
+  <div class="reviews-left">
+    <p class="section-label">Reviews</p>
+    <h2 class="section-title">회원들의<br>이야기</h2>
+    <div class="reviews-nav">
+      <button class="review-prev-btn" aria-label="이전 후기">&larr;</button>
+      <button class="review-next-btn" aria-label="다음 후기">&rarr;</button>
+    </div>
+    <div class="reviews-dots">
+      <div class="reviews-dot active" data-slide="0"></div>
+      <div class="reviews-dot" data-slide="1"></div>
+      <div class="reviews-dot" data-slide="2"></div>
+      <div class="reviews-dot" data-slide="3"></div>
+    </div>
+  </div>
+  <div class="reviews-right">
+    <div class="reviews-track-wrapper">
+      <div class="reviews-track">
+        <div class="review-slide">
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">3개월 만에 체지방 8kg 감량에 성공했습니다. 억지로 하는 운동이 아니라, 정확한 동작을 배우니 몸이 스스로 변하더라고요.</p>
+          <p class="review-author-name">김지수</p>
+          <p class="review-author-detail">6개월 수강 · Body Recomposition</p>
+        </div>
+        <div class="review-slide">
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">오래된 허리 통증 때문에 운동을 못 했는데, 재활 프로그램을 통해 통증 없이 운동할 수 있게 되었습니다.</p>
+          <p class="review-author-name">박민호</p>
+          <p class="review-author-detail">1년 수강 · Pain & Rehabilitation</p>
+        </div>
+        <div class="review-slide">
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">프라이빗한 공간에서 남의 시선 신경 쓰지 않고 집중할 수 있어서 좋습니다. 장비도 최고급이고, 확실히 다릅니다.</p>
+          <p class="review-author-name">이하나</p>
+          <p class="review-author-detail">4개월 수강 · Body Recomposition</p>
+        </div>
+        <div class="review-slide">
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">데드리프트 100kg 성공했을 때의 성취감은 잊을 수 없네요. 목표가 생기니 운동이 즐거워졌습니다.</p>
+          <p class="review-author-name">최윤서</p>
+          <p class="review-author-detail">8개월 수강 · Strength & Performance</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="faq-header reveal">
+      <p class="section-label">FAQ</p>
+      <h2 class="section-title">자주 묻는 질문</h2>
+      <p class="section-desc">궁금한 점이 있으시다면 편하게 연락주세요.</p>
+    </div>
+    <div class="reveal">
+      <div class="faq-item">
+        <button class="faq-question"><span>운동 경험이 전혀 없어도 괜찮을까요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">네, 물론입니다. 회원님의 현재 체력 수준과 움직임을 평가한 후 기초부터 차근차근 진행합니다. 올바른 자세와 호흡법부터 시작하기 때문에 초보자분들도 안전하게 운동하실 수 있습니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question"><span>무료 체험은 어떻게 진행되나요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">전화 또는 카카오톡으로 예약하신 후 방문해주시면 됩니다. 체험 세션은 약 60분으로, 간단한 상담 + 체성분 측정 + 30분 체험 트레이닝으로 구성됩니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question"><span>세션 예약 변경이나 취소가 가능한가요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">세션 24시간 전까지 변경 및 취소가 가능합니다. 당일 취소 시에는 1회 차감으로 처리되오니, 가급적 미리 연락 부탁드립니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question"><span>주차가 가능한가요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">건물 지하 주차장을 이용하실 수 있습니다. Premium, Intensive 멤버십 회원에게는 무료 주차를 지원해드립니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question"><span>커플이나 친구와 함께 수업 가능한가요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">FORGE는 1:1 프라이빗 트레이닝 전문 스튜디오입니다. 최상의 집중력과 효과를 위해 개인 세션으로 운영하고 있으며, 커플/듀엣 세션은 별도 상담이 필요합니다.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ INSTAGRAM ═══════════ -->
+<section class="insta-section">
+  <div class="insta-inner reveal">
+    <p class="section-label">Follow Us</p>
+    <p class="insta-handle">@forge_training</p>
+    <p class="insta-desc">트레이닝 일상, 회원 변화 스토리, 운동 팁을 공유합니다.</p>
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="insta-btn">Instagram</a>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT — SPLIT ═══════════ -->
+<section class="contact-section" id="contact">
+  <div class="contact-left">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="section-title reveal">오시는 길</h2>
+    <div class="reveal">
+      <div class="contact-item">
+        <p class="contact-item-label">Address</p>
+        <p class="contact-item-text">서울특별시 강남구 테헤란로 123<br>포지빌딩 4층</p>
+      </div>
+      <div class="contact-item">
+        <p class="contact-item-label">Hours</p>
+        <p class="contact-item-text">월 - 금 &nbsp; 06:00 ~ 22:00<br>토요일 &nbsp; 08:00 ~ 18:00<br>일요일 &nbsp; 휴무</p>
+      </div>
+      <div class="contact-item">
+        <p class="contact-item-label">Contact</p>
+        <p class="contact-item-text"><a href="tel:02-1234-5678">02-1234-5678</a><br><a href="mailto:hello@forge-studio.kr">hello@forge-studio.kr</a></p>
+      </div>
+      <div class="contact-item">
+        <p class="contact-item-label">Parking</p>
+        <p class="contact-item-text">건물 지하 주차장 이용 가능<br>프리미엄 이상 멤버십 무료 주차</p>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right">
+    <a href="https://map.kakao.com/" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;text-decoration:none">
+      <span style="font-size:12px;letter-spacing:2px;color:var(--warm-gray-light);text-transform:uppercase">View on Kakao Map &rarr;</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-logo">Forge</span>
+    <p class="footer-copy"><span id="copyright-year"></span> FORGE Private Training Studio. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://blog.naver.com" target="_blank" rel="noopener noreferrer">Blog</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-highlight">첫 방문 무료 체험</span> 지금 예약하시면 체성분 분석이 포함됩니다.
+  <button class="toast-close" aria-label="알림 닫기">&times;</button>
+</div>
+
+<!-- KAKAO -->
+<a href="https://pf.kakao.com/" target="_blank" rel="noopener noreferrer" class="kakao-float" aria-label="카카오톡 상담">
+  <svg viewBox="0 0 24 24" fill="#3C1E1E"><path d="M12 2C6.477 2 2 5.813 2 10.5c0 2.942 1.927 5.536 4.85 7.051l-.964 3.548a.5.5 0 00.764.538l4.14-2.73c.39.036.786.093 1.21.093 5.523 0 10-3.813 10-8.5S17.523 2 12 2z"/></svg>
+</a>
+
+<!-- MOBILE CTA BAR -->
+<div class="mobile-cta-bar">
+  <div class="mobile-cta-inner">
+    <a href="tel:02-1234-5678" class="mobile-cta-phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      전화 상담
+    </a>
+    <a href="https://pf.kakao.com/" target="_blank" rel="noopener noreferrer" class="mobile-cta-kakao">
+      <svg viewBox="0 0 24 24" fill="#3C1E1E"><path d="M12 2C6.477 2 2 5.813 2 10.5c0 2.942 1.927 5.536 4.85 7.051l-.964 3.548a.5.5 0 00.764.538l4.14-2.73c.39.036.786.093 1.21.093 5.523 0 10-3.813 10-8.5S17.523 2 12 2z"/></svg>
+      카카오 상담
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── Loader ── */
+  var loader = document.getElementById('loader');
+  document.body.style.overflow = 'hidden';
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      loader.classList.add('done');
+      document.body.style.overflow = '';
+    }, 2400);
+    setTimeout(function() {
+      loader.classList.add('hidden');
+    }, 3400);
+  });
+
+  /* ── Dark Mode ── */
+  var themeToggle = document.getElementById('themeToggle');
+  var savedTheme = localStorage.getItem('forge-theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  function updateToggleIcon() {
+    themeToggle.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '\u2606' : '\u263E';
+  }
+  updateToggleIcon();
+  themeToggle.addEventListener('click', function() {
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.removeItem('forge-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('forge-theme', 'dark');
+    }
+    updateToggleIcon();
+  });
+
+  /* ── Scroll Progress Bar ── */
+  var scrollBar = document.getElementById('scrollBar');
+  function updateScrollBar() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? window.scrollY / h : 0;
+    scrollBar.style.transform = 'scaleX(' + p + ')';
+  }
+
+  /* ── Back to Top ── */
+  var backTop = document.getElementById('backTop');
+  function updateBackTop() {
+    if (window.scrollY > 400) { backTop.classList.add('visible'); }
+    else { backTop.classList.remove('visible'); }
+  }
+  backTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ── Combined Scroll Handler (rAF throttled) ── */
+  var scrollTicking = false;
+  var lastScrollY = 0;
+  window.addEventListener('scroll', function() {
+    if (!scrollTicking) {
+      requestAnimationFrame(function() {
+        var sy = window.scrollY;
+        updateNav();
+        updateScrollBar();
+        updateBackTop();
+        /* Mobile nav auto-hide */
+        if (window.innerWidth <= 768 && !mobileMenu.classList.contains('open')) {
+          if (sy > lastScrollY && sy > 100) nav.classList.add('nav-hidden');
+          else nav.classList.remove('nav-hidden');
+        }
+        lastScrollY = sy;
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
+  }, { passive: true });
+  updateScrollBar();
+  updateBackTop();
+
+  /* ── Cursor + Cursor Label ── */
+  var dot = document.querySelector('.cursor-dot');
+  var ring = document.querySelector('.cursor-ring');
+  var curLabel = document.getElementById('cursorLabel');
+  var hasFinePointer = window.matchMedia('(pointer:fine)').matches;
+  if (hasFinePointer) {
+    var mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', function(e) {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx - 2.5 + 'px';
+      dot.style.top = my - 2.5 + 'px';
+      curLabel.style.left = mx + 20 + 'px';
+      curLabel.style.top = my - 8 + 'px';
+    });
+    (function loop() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
+    var cursorTargets = [
+      { sel: '.gallery-item', label: 'View' },
+      { sel: '.faq-question', label: 'Toggle' },
+      { sel: '.price-card', label: 'Select' },
+      { sel: '.trainer-row', label: 'Profile' },
+      { sel: '.program-row', label: 'Detail' }
+    ];
+    cursorTargets.forEach(function(ct) {
+      document.querySelectorAll(ct.sel).forEach(function(el) {
+        el.addEventListener('mouseenter', function() {
+          ring.classList.add('hover');
+          curLabel.textContent = ct.label;
+          curLabel.classList.add('show');
+        });
+        el.addEventListener('mouseleave', function() {
+          ring.classList.remove('hover');
+          curLabel.classList.remove('show');
+        });
+      });
+    });
+    document.querySelectorAll('a, button').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', function() { ring.classList.remove('hover'); curLabel.classList.remove('show'); });
+    });
+  }
+
+  /* ── Navigation ── */
+  var nav = document.getElementById('mainNav');
+  var hero = document.querySelector('.hero');
+  var hamburger = document.querySelector('.nav-hamburger');
+  var mobileMenu = document.querySelector('.mobile-menu');
+
+  function updateNav() {
+    var hb = hero.getBoundingClientRect().bottom;
+    if (hb <= 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }
+  updateNav();
+
+  hamburger.addEventListener('click', function() {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+    nav.classList.toggle('menu-open');
+    var isOpen = mobileMenu.classList.contains('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  function closeMob() {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+    nav.classList.remove('menu-open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  mobileMenu.querySelectorAll('.mobile-menu-item').forEach(function(a) {
+    a.addEventListener('click', closeMob);
+  });
+
+  /* ── Scroll Reveal ── */
+  var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  var rObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); rObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(function(el) { rObs.observe(el); });
+
+  /* ── Lightbox ── */
+  var lightbox = document.getElementById('lightbox');
+  var lbCur = document.getElementById('lb-current');
+  var lbTot = document.getElementById('lb-total');
+  var gItems = document.querySelectorAll('.gallery-item');
+  var kakao = document.querySelector('.kakao-float');
+  var curLb = 0, totLb = gItems.length;
+  var lbTrigger = null;
+  lbTot.textContent = totLb;
+
+  function openLb(i) {
+    curLb = i; lbCur.textContent = i + 1;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (kakao) kakao.classList.add('hidden');
+    setTimeout(function() {
+      var fc = document.querySelector('.lightbox-close');
+      if (fc) fc.focus();
+    }, 100);
+  }
+  function closeLb() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    if (kakao) kakao.classList.remove('hidden');
+    if (lbTrigger) { lbTrigger.focus(); lbTrigger = null; }
+  }
+  gItems.forEach(function(it) {
+    it.addEventListener('click', function() { lbTrigger = this; openLb(parseInt(this.dataset.index)); });
+    it.addEventListener('keydown', function(e) { if (e.key === 'Enter') { lbTrigger = this; openLb(parseInt(this.dataset.index)); } });
+  });
+  document.querySelector('.lightbox-close').addEventListener('click', closeLb);
+  document.querySelector('.lightbox-prev').addEventListener('click', function() {
+    curLb = (curLb - 1 + totLb) % totLb; lbCur.textContent = curLb + 1;
+  });
+  document.querySelector('.lightbox-next').addEventListener('click', function() {
+    curLb = (curLb + 1) % totLb; lbCur.textContent = curLb + 1;
+  });
+  lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLb(); });
+
+  /* Lightbox touch swipe */
+  var lbTouchX = 0;
+  lightbox.addEventListener('touchstart', function(e) { lbTouchX = e.touches[0].clientX; }, { passive: true });
+  lightbox.addEventListener('touchend', function(e) {
+    var diff = lbTouchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      curLb = (curLb + (diff > 0 ? 1 : -1) + totLb) % totLb;
+      lbCur.textContent = curLb + 1;
+    }
+  }, { passive: true });
+
+  /* Lightbox focus trap */
+  lightbox.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab') return;
+    var focusable = lightbox.querySelectorAll('button:not([disabled])');
+    if (!focusable.length) return;
+    var first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+    else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
+  });
+
+  /* ── ESC Priority: Lightbox → Toast → Mobile Menu ── */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (lightbox.classList.contains('open')) { closeLb(); return; }
+      if (toast.classList.contains('show')) { toast.classList.remove('show'); return; }
+      if (mobileMenu.classList.contains('open')) { closeMob(); return; }
+    }
+    if (lightbox.classList.contains('open')) {
+      if (e.key === 'ArrowLeft') document.querySelector('.lightbox-prev').click();
+      if (e.key === 'ArrowRight') document.querySelector('.lightbox-next').click();
+    }
+  });
+
+  /* ── Reviews Carousel (clearTimeout) ── */
+  var rTrack = document.querySelector('.reviews-track');
+  var rSlides = document.querySelectorAll('.review-slide');
+  var rDots = document.querySelectorAll('.reviews-dot');
+  var rPrev = document.querySelector('.review-prev-btn');
+  var rNext = document.querySelector('.review-next-btn');
+  var rCur = 0, rMax = rSlides.length - 1, rTimer = null;
+
+  function goReview(i) {
+    rCur = i;
+    rTrack.style.transform = 'translateX(-' + (rCur * 100) + '%)';
+    rDots.forEach(function(d, idx) { d.classList.toggle('active', idx === rCur); });
+  }
+  function nextReview() { goReview(rCur >= rMax ? 0 : rCur + 1); }
+  function startRTimer() {
+    clearTimeout(rTimer);
+    rTimer = setTimeout(function tick() { nextReview(); rTimer = setTimeout(tick, 5000); }, 5000);
+  }
+  function resetRTimer() { clearTimeout(rTimer); startRTimer(); }
+
+  rPrev.addEventListener('click', function() { goReview(rCur <= 0 ? rMax : rCur - 1); resetRTimer(); });
+  rNext.addEventListener('click', function() { nextReview(); resetRTimer(); });
+  rDots.forEach(function(d) {
+    d.addEventListener('click', function() { goReview(parseInt(this.dataset.slide)); resetRTimer(); });
+  });
+  goReview(0); startRTimer();
+
+  /* Touch swipe for reviews */
+  var rWrapper = document.querySelector('.reviews-track-wrapper');
+  var touchStartX = 0, touchEndX = 0;
+  rWrapper.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  rWrapper.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    var diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) { nextReview(); } else { goReview(rCur <= 0 ? rMax : rCur - 1); }
+      resetRTimer();
+    }
+  }, { passive: true });
+
+  /* ── FAQ ── */
+  document.querySelectorAll('.faq-item').forEach(function(item, idx) {
+    var btn = item.querySelector('.faq-question');
+    var ans = item.querySelector('.faq-answer');
+    var aid = 'faq-a-' + idx;
+    ans.id = aid;
+    btn.setAttribute('aria-controls', aid);
+    btn.setAttribute('aria-expanded', 'false');
+    btn.addEventListener('click', function() {
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(fi) {
+        fi.classList.remove('open');
+        fi.querySelector('.faq-answer').style.maxHeight = '0';
+        fi.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!wasOpen) {
+        item.classList.add('open');
+        ans.style.maxHeight = ans.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* ── Section Dot Nav ── */
+  var secDots = document.querySelectorAll('.sec-dot');
+  var sections = document.querySelectorAll('section[id]');
+  var secObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        var id = e.target.id;
+        secDots.forEach(function(d) {
+          d.classList.toggle('active', d.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(function(s) { secObs.observe(s); });
+
+  /* ── Counter Animation ── */
+  var counters = document.querySelectorAll('[data-count]');
+  var counterDone = false;
+  var cObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && !counterDone) {
+        counterDone = true;
+        counters.forEach(function(c) {
+          var target = parseInt(c.dataset.count);
+          var duration = 2000;
+          var start = 0;
+          var startTime = null;
+          function step(ts) {
+            if (!startTime) startTime = ts;
+            var progress = Math.min((ts - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            c.textContent = Math.floor(eased * target);
+            if (progress < 1) requestAnimationFrame(step);
+            else c.textContent = target;
+          }
+          requestAnimationFrame(step);
+        });
+        cObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  var statsBand = document.getElementById('statsBand');
+  if (statsBand) cObs.observe(statsBand);
+
+  /* ── Toast ── */
+  var toast = document.getElementById('toast');
+  var toastClose = toast.querySelector('.toast-close');
+  if (!sessionStorage.getItem('forge-toast-closed')) {
+    setTimeout(function() { toast.classList.add('show'); }, 30000);
+  }
+  toastClose.addEventListener('click', function() {
+    toast.classList.remove('show');
+    sessionStorage.setItem('forge-toast-closed', '1');
+  });
+
+  /* ── Visibility API ── */
+  var mqInner = document.querySelector('.mq-inner');
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      clearTimeout(rTimer);
+      if (mqInner) mqInner.style.animationPlayState = 'paused';
+    } else {
+      startRTimer();
+      if (mqInner) mqInner.style.animationPlayState = 'running';
+    }
+  });
+
+  /* ── Smooth Scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var t = document.querySelector(this.getAttribute('href'));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.offsetTop - 80, behavior: 'smooth' }); }
+    });
+  });
+
+  /* ── 3D Tilt (desktop only) ── */
+  var isMob = !window.matchMedia('(hover:hover)').matches;
+  if (!isMob) {
+    document.querySelectorAll('.price-card, .trainer-row, .program-row').forEach(function(card) {
+      card.classList.add('tilt-card');
+      card.addEventListener('mousemove', function(e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(600px) rotateY(' + (x * 6) + 'deg) rotateX(' + (-y * 6) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('mouseleave', function() { card.style.transform = ''; });
+    });
+  }
+
+  /* ── Magnetic Button (desktop only) ── */
+  if (!isMob) {
+    document.querySelectorAll('.hero-btn, .nav-cta, .price-btn, .program-cta, .insta-btn').forEach(function(btn) {
+      btn.classList.add('mag-btn');
+      btn.addEventListener('mousemove', function(e) {
+        var r = btn.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width / 2;
+        var y = e.clientY - r.top - r.height / 2;
+        btn.style.transform = 'translate(' + (x * 0.2) + 'px,' + (y * 0.2) + 'px)';
+      });
+      btn.addEventListener('mouseleave', function() { btn.style.transform = ''; });
+    });
+  }
+
+  /* ── Asset Protection ── */
+  document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+  document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+  /* ── Copyright ── */
+  var cy = document.getElementById('copyright-year');
+  if (cy) cy.textContent = new Date().getFullYear();
+
+})();
+
+// 포트폴리오 프리뷰용 자동스크롤 (iframe 안에 있을 때만 작동)
+var _isPreview=false;try{_isPreview=window.self!==window.top}catch(e){_isPreview=true}
+if(_isPreview){
+  var _asY=0,_asSpd=2.25,_asPaused=false;
+  function _asRun(){
+    if(!_asPaused){
+      _asY+=_asSpd;
+      var maxY=document.documentElement.scrollHeight-window.innerHeight;
+      if(_asY>=maxY){_asPaused=true;setTimeout(function(){_asY=0;window.scrollTo(0,0);_asPaused=false},800)}
+      else{window.scrollTo(0,_asY)}
+    }
+    requestAnimationFrame(_asRun);
+  }
+  window.addEventListener('load',function(){setTimeout(_asRun,1200)});
+}
+</script>
+</body>
+</html>
