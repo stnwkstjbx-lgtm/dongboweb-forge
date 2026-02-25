@@ -388,14 +388,23 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
   position: relative;
+  border-bottom: 1px solid rgba(139,105,20,.12);
 }
 .hero-left {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 80px 60px 80px 60px;
-  background: var(--cream);
+  background: linear-gradient(170deg, var(--cream) 0%, #F5EEE4 60%, var(--cream) 100%);
   position: relative;
+}
+.hero-left::before {
+  content: '';
+  position: absolute;
+  bottom: -10%; right: -20%;
+  width: 50%; height: 50%;
+  background: radial-gradient(circle, rgba(139,105,20,.04) 0%, transparent 70%);
+  pointer-events: none;
 }
 .hero-left::after {
   content: 'F';
@@ -406,7 +415,7 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
   font-size: 280px;
   font-weight: 300;
   color: var(--espresso);
-  opacity: 0.03;
+  opacity: 0.04;
   line-height: 1;
   pointer-events: none;
 }
@@ -422,7 +431,7 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
 }
 .hero-title em { font-style: italic; color: var(--bronze); }
 .hero-sub {
-  font-size: 15px; font-weight: 300; color: var(--warm-gray);
+  font-size: 15px; font-weight: 300; color: var(--warm-gray-light);
   line-height: 1.85; max-width: 400px; margin-bottom: 48px;
 }
 .hero-btn {
@@ -448,6 +457,18 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
   background: var(--espresso);
   position: relative; overflow: hidden;
 }
+.hero-right::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(to bottom, rgba(44,24,16,.15) 0%, transparent 40%, transparent 60%, rgba(44,24,16,.25) 100%);
+  pointer-events: none;
+}
+.hero-right::after {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 60px; z-index: 2;
+  background: linear-gradient(to right, rgba(44,24,16,.18) 0%, transparent 100%);
+  pointer-events: none;
+}
 .hero-right-inner {
   position: absolute; inset: 0;
   background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80') center/cover no-repeat;
@@ -462,8 +483,9 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
   font-family: var(--serif);
   font-size: 13px;
   letter-spacing: 3px;
-  color: rgba(250,246,241,0.2);
+  color: rgba(250,246,241,0.25);
   writing-mode: vertical-rl;
+  z-index: 3;
 }
 .hero-scroll-hint {
   position: absolute;
@@ -615,13 +637,13 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
   transition: transform 0.6s var(--ease);
 }
 .trainer-row:nth-child(1) .trainer-img-bg {
-  background: url('https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&q=80') center/cover no-repeat;
+  background: url('https://images.unsplash.com/photo-1711006366862-734ee22d1d37?w=800&q=80') center/cover no-repeat;
 }
 .trainer-row:nth-child(2) .trainer-img-bg {
-  background: url('https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=800&q=80') center/cover no-repeat;
+  background: url('https://images.unsplash.com/photo-1683848644078-f339179c4ff6?w=800&q=80') center/cover no-repeat;
 }
 .trainer-row:nth-child(3) .trainer-img-bg {
-  background: url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=800&q=80') center/cover no-repeat;
+  background: url('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80') center/cover no-repeat;
 }
 .trainer-row:hover .trainer-img-bg { transform: scale(1.03); }
 .trainer-info {
@@ -1219,7 +1241,7 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
 [data-theme="dark"] .nav-links a,
 [data-theme="dark"] .nav.scrolled .nav-links a { color: var(--fg); }
 [data-theme="dark"] .nav-hamburger span { background: var(--fg); }
-[data-theme="dark"] .hero-left { background: var(--bg); }
+[data-theme="dark"] .hero-left { background: linear-gradient(170deg, var(--bg) 0%, #241A14 60%, var(--bg) 100%); }
 [data-theme="dark"] .hero-left::after { color: var(--fg); }
 [data-theme="dark"] .hero-title { color: var(--fg); }
 [data-theme="dark"] .hero-btn { border-color: var(--fg); color: var(--fg); }
