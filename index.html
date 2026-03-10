@@ -2113,6 +2113,8 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
 
 <!-- ═══════════ JAVASCRIPT ═══════════ -->
 <script>
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+window.scrollTo(0,0);
 (function() {
   'use strict';
 
