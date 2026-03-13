@@ -91,37 +91,83 @@
 }
 
 /* ═══════════════════════════════════════
-   LOADER — Split Wipe
+   LOADER — Heartbeat EKG
    ═══════════════════════════════════════ */
 .loader {
   position: fixed; inset: 0; z-index: 9999;
   display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 0;
+  background: var(--espresso);
   overflow: hidden;
 }
-.loader-panel {
-  position: absolute; top: 0; bottom: 0; width: 50%;
-  background: var(--espresso);
-  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
-}
-.loader-panel-l { left: 0; }
-.loader-panel-r { right: 0; }
-.loader.done .loader-panel-l { transform: translateX(-100%); }
-.loader.done .loader-panel-r { transform: translateX(100%); }
-.loader-content {
-  position: relative; z-index: 2;
-  text-align: center;
-  transition: opacity 0.35s ease 0s;
-}
-.loader.done .loader-content { opacity: 0; }
+.loader.done { animation: ldReveal 0.9s 0.1s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 .loader.hidden { visibility: hidden; pointer-events: none; }
+@keyframes ldReveal {
+  0% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 100% 0); }
+}
+
+/* EKG line */
+.loader-ekg {
+  width: 320px; height: 80px;
+  position: relative; z-index: 2;
+}
+.loader-ekg svg { width: 100%; height: 100%; }
+.loader-ekg-line {
+  fill: none;
+  stroke: var(--bronze);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: ldEkg 1.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.loader-ekg-glow {
+  fill: none;
+  stroke: var(--bronze);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.15;
+  filter: blur(4px);
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: ldEkg 1.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes ldEkg {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Pulse dot that follows the line */
+.loader-ekg-dot {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: var(--bronze);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--bronze), 0 0 24px rgba(139,105,20,0.3);
+  top: 50%; left: 0;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: ldDotMove 1.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes ldDotMove {
+  0% { left: 0; opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* Brand text */
 .loader-brand {
   font-family: var(--serif);
-  font-size: clamp(2.6rem, 8vw, 4.8rem);
+  font-size: clamp(2.4rem, 7vw, 4rem);
   color: var(--cream);
   font-weight: 300;
+  letter-spacing: 0.3em;
+  text-align: center;
+  position: relative; z-index: 2;
   opacity: 0;
-  letter-spacing: 0.6em;
-  animation: ldCompress 1s 0.3s var(--ease) forwards;
+  transform: translateY(8px);
+  animation: ldBrandIn 0.7s 1.6s var(--ease) forwards;
 }
 .loader-sub {
   font-family: var(--body);
@@ -129,25 +175,32 @@
   color: var(--bronze);
   letter-spacing: 4px;
   text-transform: uppercase;
-  margin-top: 16px;
+  margin-top: 12px;
+  text-align: center;
+  position: relative; z-index: 2;
   opacity: 0;
-  animation: ldFadeUp 0.6s 1s var(--ease) forwards;
+  animation: ldBrandIn 0.5s 1.9s var(--ease) forwards;
 }
-.loader-line {
-  width: 0; height: 1px;
-  background: var(--bronze);
-  margin: 24px auto 0;
-  animation: ldLine 1.2s 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* BPM counter */
+.loader-bpm {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: rgba(139,105,20,0.4);
+  letter-spacing: 2px;
+  margin-top: 24px;
+  text-align: center;
+  position: relative; z-index: 2;
+  opacity: 0;
+  animation: ldBrandIn 0.4s 2.1s var(--ease) forwards;
 }
-@keyframes ldCompress {
-  from { opacity: 0; letter-spacing: 0.6em; }
-  to   { opacity: 1; letter-spacing: 0.2em; }
+.loader-bpm-num {
+  font-size: 18px; font-weight: 300;
+  color: var(--bronze);
 }
-@keyframes ldFadeUp {
+@keyframes ldBrandIn {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
-@keyframes ldLine { to { width: 120px; } }
 
 /* ═══════════════════════════════════════
    GRAIN TEXTURE
@@ -1022,6 +1075,304 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
 .kakao-float svg { width: 26px; height: 26px; }
 
 /* ═══════════════════════════════════════
+   PHOTO BAND
+   ═══════════════════════════════════════ */
+.photo-band {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  height: 280px; overflow: hidden;
+}
+.photo-band-item {
+  position: relative; overflow: hidden;
+}
+.photo-band-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s var(--ease);
+  pointer-events: none;
+}
+.photo-band-item:hover img { transform: scale(1.06); }
+
+/* ═══════════════════════════════════════
+   TRANSFORMATION JOURNEY
+   ═══════════════════════════════════════ */
+.journey-section {
+  padding: 100px 60px;
+  background: var(--bg);
+}
+.journey-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+.journey-header {
+  max-width: 600px; margin-bottom: 60px;
+}
+.journey-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; position: relative;
+}
+.journey-steps::before {
+  content: '';
+  position: absolute; top: 40px; left: 10%; right: 10%;
+  height: 1px; background: var(--border);
+}
+.journey-step {
+  text-align: center; padding: 0 20px;
+  position: relative;
+}
+.journey-step-num {
+  width: 80px; height: 80px; margin: 0 auto 24px;
+  border: 1px solid var(--bronze);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 28px; font-weight: 300;
+  color: var(--bronze); background: var(--bg);
+  position: relative; z-index: 1;
+  transition: all var(--transition);
+}
+.journey-step:hover .journey-step-num {
+  background: var(--bronze); color: var(--cream);
+}
+.journey-step-title {
+  font-family: var(--body); font-size: 16px; font-weight: 500;
+  color: var(--fg); margin-bottom: 8px;
+}
+.journey-step-desc {
+  font-size: 13px; font-weight: 300; color: var(--dim);
+  line-height: 1.75;
+}
+
+/* ═══════════════════════════════════════
+   PROGRESS CHART — SIGNATURE
+   ═══════════════════════════════════════ */
+.progress-section {
+  padding: 100px 60px;
+  background: var(--espresso);
+}
+.progress-inner {
+  max-width: 1000px; margin: 0 auto;
+}
+.progress-header {
+  margin-bottom: 48px;
+}
+.progress-header .section-label { color: var(--bronze-light); }
+.progress-header .section-title { color: var(--cream); }
+.progress-header .section-desc { color: rgba(250,246,241,0.5); }
+.progress-chart-wrap {
+  position: relative;
+  background: rgba(250,246,241,0.03);
+  border: 1px solid rgba(250,246,241,0.06);
+  padding: 40px 40px 48px;
+}
+.progress-chart-wrap svg {
+  width: 100%; height: auto; display: block;
+}
+.progress-grid-line {
+  stroke: rgba(250,246,241,0.06);
+  stroke-width: 1;
+}
+.progress-axis-label {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  fill: rgba(250,246,241,0.3);
+}
+.progress-line {
+  fill: none; stroke-width: 2.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: stroke-dashoffset 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.progress-line-strength { stroke: var(--bronze); }
+.progress-line-endurance { stroke: #A8842A; }
+.progress-line-flexibility { stroke: #C4A85A; }
+.progress-legend {
+  display: flex; gap: 32px; margin-top: 24px;
+  justify-content: center;
+}
+.progress-legend-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: rgba(250,246,241,0.5);
+  letter-spacing: 0.5px; white-space: nowrap;
+}
+.progress-legend-dot {
+  width: 12px; height: 3px; border-radius: 2px;
+}
+.progress-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; margin-top: 40px;
+  border: 1px solid rgba(250,246,241,0.06);
+}
+.progress-stat {
+  text-align: center; padding: 28px 16px;
+  border-right: 1px solid rgba(250,246,241,0.06);
+}
+.progress-stat:last-child { border-right: none; }
+.progress-stat-num {
+  font-family: var(--serif); font-size: 36px; font-weight: 300;
+  color: var(--cream); line-height: 1;
+}
+.progress-stat-num .stat-suffix { font-size: 0.5em; color: var(--bronze-light); }
+.progress-stat-label {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(250,246,241,0.3); margin-top: 8px;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════
+   AWARDS
+   ═══════════════════════════════════════ */
+.awards-section {
+  padding: 100px 60px;
+  background: var(--bg-alt);
+}
+.awards-inner { max-width: 1200px; margin: 0 auto; }
+.awards-header { text-align: center; margin-bottom: 60px; }
+.awards-header .section-desc { max-width: 480px; margin: 0 auto; }
+.awards-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; border: 1px solid var(--border);
+}
+.award-card {
+  padding: 40px 28px; text-align: center;
+  border-right: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.award-card:last-child { border-right: none; }
+.award-card:hover { background: var(--bg); }
+.award-icon {
+  font-family: var(--serif); font-size: 36px; font-weight: 300;
+  color: var(--bronze); margin-bottom: 20px;
+  font-style: italic;
+}
+.award-name {
+  font-size: 14px; font-weight: 600; color: var(--fg);
+  margin-bottom: 4px; letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.award-org {
+  font-size: 11px; color: var(--dim); letter-spacing: 0.5px;
+  margin-bottom: 12px; white-space: nowrap;
+}
+.award-desc {
+  font-size: 12px; font-weight: 300; color: var(--dim-light);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════
+   CTA BANNER
+   ═══════════════════════════════════════ */
+.cta-banner {
+  background: var(--espresso);
+  padding: 80px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-banner::before {
+  content: 'FORGE';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif); font-size: 200px; font-weight: 300;
+  color: rgba(250,246,241,0.02);
+  letter-spacing: 0.2em; pointer-events: none;
+  white-space: nowrap;
+}
+.cta-banner-title {
+  font-family: var(--serif); font-size: clamp(28px, 4vw, 48px);
+  font-weight: 300; color: var(--cream);
+  margin-bottom: 16px; position: relative;
+}
+.cta-banner-desc {
+  font-size: 14px; color: rgba(250,246,241,0.5);
+  margin-bottom: 36px; position: relative;
+}
+.cta-banner-btn {
+  display: inline-block;
+  font-size: 12px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; padding: 16px 48px;
+  border: 1px solid var(--bronze); color: var(--bronze);
+  transition: all var(--fast); position: relative;
+}
+.cta-banner-btn:hover {
+  background: var(--bronze); color: var(--cream);
+}
+
+/* ═══════════════════════════════════════
+   INSTAGRAM GRID
+   ═══════════════════════════════════════ */
+.insta-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 4px; margin-top: 32px; max-width: 720px; margin-left: auto; margin-right: auto;
+}
+.insta-grid-item {
+  position: relative; overflow: hidden;
+  aspect-ratio: 1;
+}
+.insta-grid-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s var(--ease);
+  pointer-events: none;
+}
+.insta-grid-item:hover img { transform: scale(1.08); }
+.insta-grid-item::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(44,24,16,0.3);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.insta-grid-item:hover::after { opacity: 1; }
+
+/* ═══════════════════════════════════════
+   EXTENDED FOOTER
+   ═══════════════════════════════════════ */
+.footer-ext {
+  background: var(--espresso);
+  padding: 80px 60px 24px;
+  border-top: 1px solid rgba(250,246,241,0.04);
+}
+.footer-ext-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(250,246,241,0.06);
+}
+.footer-ext-brand {
+  font-family: var(--serif); font-size: 20px; font-weight: 600;
+  letter-spacing: 4px; color: var(--cream); text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.footer-ext-desc {
+  font-size: 13px; color: rgba(250,246,241,0.4); line-height: 1.8;
+  max-width: 280px;
+}
+.footer-ext-heading {
+  font-size: 11px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--bronze-light);
+  margin-bottom: 20px; white-space: nowrap;
+}
+.footer-ext-list { list-style: none; }
+.footer-ext-list li {
+  margin-bottom: 10px;
+}
+.footer-ext-list a {
+  font-size: 13px; color: rgba(250,246,241,0.4);
+  transition: color var(--fast);
+}
+.footer-ext-list a:hover { color: var(--bronze-light); }
+.footer-ext-bottom {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 24px;
+}
+.footer-ext-copy {
+  font-size: 11px; color: rgba(250,246,241,0.2);
+}
+.footer-ext-links {
+  display: flex; gap: 20px;
+}
+.footer-ext-links a {
+  font-size: 11px; color: rgba(250,246,241,0.3);
+  transition: color var(--fast);
+}
+.footer-ext-links a:hover { color: var(--bronze-light); }
+
+/* ═══════════════════════════════════════
    WIDESCREEN
    ═══════════════════════════════════════ */
 @media (min-width: 1400px) {
@@ -1043,6 +1394,11 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
   .nav.scrolled { padding: 18px 60px; }
   .footer { padding: 36px 60px; }
   .insta-section { padding: 100px 80px; }
+  .journey-section { padding: 120px 80px; }
+  .progress-section { padding: 120px 80px; }
+  .awards-section { padding: 120px 80px; }
+  .cta-banner { padding: 100px 80px; }
+  .footer-ext { padding: 100px 80px 28px; }
   .theme-toggle { right: 28px; }
   .sec-dots { right: 28px; }
 }
@@ -1199,6 +1555,42 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
   .stat-item:nth-child(3) { border-top: 1px solid rgba(250,246,241,0.06); }
   .mq-item { font-size: 13px; padding: 0 16px; }
   .insta-section { padding: 72px 24px; }
+
+  /* Photo Band */
+  .photo-band { grid-template-columns: repeat(2, 1fr); height: 200px; }
+
+  /* Journey */
+  .journey-section { padding: 72px 24px; }
+  .journey-steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .journey-steps::before { display: none; }
+  .journey-step { padding: 0; }
+
+  /* Progress Chart */
+  .progress-section { padding: 72px 24px; }
+  .progress-chart-wrap { padding: 24px 16px 32px; }
+  .progress-legend { flex-wrap: wrap; gap: 16px; }
+  .progress-stats { grid-template-columns: 1fr; }
+  .progress-stat { border-right: none; border-bottom: 1px solid rgba(250,246,241,0.06); }
+  .progress-stat:last-child { border-bottom: none; }
+
+  /* Awards */
+  .awards-section { padding: 72px 24px; }
+  .awards-grid { grid-template-columns: repeat(2, 1fr); }
+  .award-card { border-bottom: 1px solid var(--border); }
+  .award-card:nth-child(even) { border-right: none; }
+  .award-card:nth-child(n+3) { border-bottom: none; }
+
+  /* CTA Banner */
+  .cta-banner { padding: 60px 24px; }
+
+  /* Insta Grid */
+  .insta-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Extended Footer */
+  .footer-ext { padding: 48px 24px 20px; }
+  .footer-ext-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-ext-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .footer-ext-links { justify-content: center; }
 }
 
 /* ═══════════════════════════════════════
@@ -1281,6 +1673,17 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
 [data-theme="dark"] .footer { background: #0E0A08; }
 [data-theme="dark"] .trial-badge { border-color: var(--bronze); }
 [data-theme="dark"] .bronze-line { background: var(--bronze); }
+[data-theme="dark"] .journey-step-title { color: var(--fg); }
+[data-theme="dark"] .journey-step-desc { color: var(--dim); }
+[data-theme="dark"] .journey-step-num { background: var(--bg); }
+[data-theme="dark"] .journey-step:hover .journey-step-num { background: var(--bronze); color: var(--cream); }
+[data-theme="dark"] .awards-section { background: var(--bg-alt); }
+[data-theme="dark"] .award-card { border-color: var(--border); }
+[data-theme="dark"] .award-card:hover { background: var(--bg); }
+[data-theme="dark"] .award-name { color: var(--fg); }
+[data-theme="dark"] .award-org { color: var(--dim); }
+[data-theme="dark"] .award-desc { color: var(--dim-light); }
+[data-theme="dark"] .footer-ext { background: #0E0A08; }
 
 .theme-toggle {
   position: fixed; top: 50%; right: 20px; z-index: 1001;
@@ -1469,7 +1872,7 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
 /* ═══════════════════════════════════════
    CONTAIN OPTIMIZATION
    ═══════════════════════════════════════ */
-.price-card, .gallery-item, .review-slide, .faq-item { contain: layout style paint; }
+.price-card, .gallery-item, .review-slide, .faq-item, .award-card, .journey-step { contain: layout style paint; }
 
 /* ═══════════════════════════════════════
    HOVER:NONE TOUCH FEEDBACK
@@ -1501,7 +1904,10 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
 .programs-section *:focus-visible,
 .reviews-left *:focus-visible,
 .contact-left *:focus-visible,
-.footer *:focus-visible {
+.progress-section *:focus-visible,
+.cta-banner *:focus-visible,
+.footer *:focus-visible,
+.footer-ext *:focus-visible {
   outline-color: var(--bronze-light);
 }
 
@@ -1524,7 +1930,7 @@ button { border: none; background: none; cursor: pointer; font-family: var(--bod
 @media print {
   .loader, .grain, .cursor-dot, .cursor-ring, .cursor-label, .nav, .mobile-menu,
   .kakao-float, .mobile-cta-bar, .hero-scroll-hint, .lightbox, .hero-right,
-  .scroll-bar, .sec-dots, .theme-toggle, .back-top, .toast { display: none !important; }
+  .scroll-bar, .sec-dots, .theme-toggle, .back-top, .toast, .photo-band, .cta-banner { display: none !important; }
   body { background: white; color: black; font-size: 12pt; padding: 0; }
   * { background: transparent !important; box-shadow: none !important; }
   .mq-inner { animation: none !important; }
@@ -1551,15 +1957,19 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
 <!-- GRAIN -->
 <div class="grain" aria-hidden="true"></div>
 
-<!-- LOADER -->
+<!-- LOADER — Heartbeat EKG -->
 <div class="loader" id="loader">
-  <div class="loader-panel loader-panel-l"></div>
-  <div class="loader-panel loader-panel-r"></div>
-  <div class="loader-content">
-    <div class="loader-brand">FORGE</div>
-    <div class="loader-sub">Private Training Studio</div>
-    <div class="loader-line"></div>
+  <div class="loader-ekg">
+    <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+      <!-- EKG heartbeat waveform: flat → P wave → flat → QRS spike → flat → T wave → flat -->
+      <path class="loader-ekg-glow" d="M0,40 L60,40 L72,36 L80,40 L100,40 L108,40 L114,8 L120,72 L126,28 L132,40 L150,40 L162,32 L172,40 L240,40 L252,36 L260,40 L280,40 L288,40 L294,12 L300,68 L306,30 L312,40 L320,40"/>
+      <path class="loader-ekg-line" d="M0,40 L60,40 L72,36 L80,40 L100,40 L108,40 L114,8 L120,72 L126,28 L132,40 L150,40 L162,32 L172,40 L240,40 L252,36 L260,40 L280,40 L288,40 L294,12 L300,68 L306,30 L312,40 L320,40"/>
+    </svg>
+    <div class="loader-ekg-dot"></div>
   </div>
+  <div class="loader-brand">FORGE</div>
+  <div class="loader-sub">Private Training Studio</div>
+  <div class="loader-bpm"><span class="loader-bpm-num" id="loaderBpm">0</span> BPM</div>
 </div>
 
 <!-- CURSOR -->
@@ -1579,7 +1989,9 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
   <a href="#philosophy" class="sec-dot"><span class="sec-dot-label">Philosophy</span></a>
   <a href="#programs" class="sec-dot"><span class="sec-dot-label">Programs</span></a>
   <a href="#trainers" class="sec-dot"><span class="sec-dot-label">Trainers</span></a>
+  <a href="#journey" class="sec-dot"><span class="sec-dot-label">Journey</span></a>
   <a href="#pricing" class="sec-dot"><span class="sec-dot-label">Pricing</span></a>
+  <a href="#progress" class="sec-dot"><span class="sec-dot-label">Progress</span></a>
   <a href="#gallery" class="sec-dot"><span class="sec-dot-label">Gallery</span></a>
   <a href="#contact" class="sec-dot"><span class="sec-dot-label">Contact</span></a>
 </div>
@@ -1807,6 +2219,14 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
   </div>
 </section>
 
+<!-- ═══════════ PHOTO BAND #1 ═══════════ -->
+<div class="photo-band" aria-hidden="true">
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&q=80" alt="" loading="lazy"></div>
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80" alt="" loading="lazy"></div>
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="" loading="lazy"></div>
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80" alt="" loading="lazy"></div>
+</div>
+
 <!-- ═══════════ STATS COUNTER ═══════════ -->
 <div class="stats-band" id="statsBand">
   <div class="stat-item">
@@ -1826,6 +2246,39 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
     <p class="stat-label">Transformations</p>
   </div>
 </div>
+
+<!-- ═══════════ TRANSFORMATION JOURNEY ═══════════ -->
+<section class="journey-section" id="journey">
+  <div class="journey-inner">
+    <div class="journey-header reveal">
+      <p class="section-label">How It Works</p>
+      <h2 class="section-title">첫 방문부터<br>변화까지</h2>
+      <p class="section-desc">체계적인 4단계 프로세스로 목표 달성을 이끕니다.</p>
+    </div>
+    <div class="journey-steps reveal">
+      <div class="journey-step">
+        <div class="journey-step-num">01</div>
+        <p class="journey-step-title">무료 상담</p>
+        <p class="journey-step-desc">목표와 운동 이력을 파악하고 맞춤 방향을 설계합니다</p>
+      </div>
+      <div class="journey-step">
+        <div class="journey-step-num">02</div>
+        <p class="journey-step-title">체성분 분석</p>
+        <p class="journey-step-desc">InBody 측정과 움직임 평가로 현재 상태를 정밀 진단합니다</p>
+      </div>
+      <div class="journey-step">
+        <div class="journey-step-num">03</div>
+        <p class="journey-step-title">프로그램 설계</p>
+        <p class="journey-step-desc">데이터 기반으로 개인 맞춤 운동 프로그램을 구성합니다</p>
+      </div>
+      <div class="journey-step">
+        <div class="journey-step-num">04</div>
+        <p class="journey-step-title">훈련 시작</p>
+        <p class="journey-step-desc">1:1 프라이빗 세션으로 체계적 트레이닝을 시작합니다</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ═══════════ PRICING ═══════════ -->
 <section class="pricing-section" id="pricing">
@@ -1877,6 +2330,72 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
           <li>우선 예약 + 주차 지원</li>
         </ul>
         <a href="#contact" class="price-btn">상담 예약</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROGRESS CHART — SIGNATURE ═══════════ -->
+<section class="progress-section" id="progress">
+  <div class="progress-inner">
+    <div class="progress-header reveal">
+      <p class="section-label">Progress</p>
+      <h2 class="section-title">12주 트레이닝<br>변화 그래프</h2>
+      <p class="section-desc">실제 회원 평균 데이터 기반. 체계적 프로그래밍의 결과입니다.</p>
+    </div>
+    <div class="progress-chart-wrap reveal" id="progressChart">
+      <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid lines -->
+        <line class="progress-grid-line" x1="80" y1="40" x2="760" y2="40"/>
+        <line class="progress-grid-line" x1="80" y1="110" x2="760" y2="110"/>
+        <line class="progress-grid-line" x1="80" y1="180" x2="760" y2="180"/>
+        <line class="progress-grid-line" x1="80" y1="250" x2="760" y2="250"/>
+        <!-- Y-axis labels -->
+        <text class="progress-axis-label" x="70" y="44" text-anchor="end">100%</text>
+        <text class="progress-axis-label" x="70" y="114" text-anchor="end">75%</text>
+        <text class="progress-axis-label" x="70" y="184" text-anchor="end">50%</text>
+        <text class="progress-axis-label" x="70" y="254" text-anchor="end">25%</text>
+        <!-- X-axis labels -->
+        <text class="progress-axis-label" x="137" y="280" text-anchor="middle">2주</text>
+        <text class="progress-axis-label" x="250" y="280" text-anchor="middle">4주</text>
+        <text class="progress-axis-label" x="363" y="280" text-anchor="middle">6주</text>
+        <text class="progress-axis-label" x="476" y="280" text-anchor="middle">8주</text>
+        <text class="progress-axis-label" x="590" y="280" text-anchor="middle">10주</text>
+        <text class="progress-axis-label" x="703" y="280" text-anchor="middle">12주</text>
+        <!-- Strength line -->
+        <path class="progress-line progress-line-strength" id="pLineStrength"
+          d="M80,240 C137,230 137,220 194,205 C250,190 250,170 307,150 C363,130 363,110 420,95 C476,80 476,68 533,60 C590,52 590,48 647,44 C703,40 703,38 760,36"/>
+        <!-- Endurance line -->
+        <path class="progress-line progress-line-endurance" id="pLineEndurance"
+          d="M80,245 C137,238 137,230 194,218 C250,206 250,190 307,175 C363,160 363,145 420,130 C476,115 476,105 533,95 C590,85 590,78 647,72 C703,66 703,62 760,58"/>
+        <!-- Flexibility line -->
+        <path class="progress-line progress-line-flexibility" id="pLineFlexibility"
+          d="M80,248 C137,244 137,238 194,230 C250,222 250,210 307,198 C363,186 363,170 420,160 C476,150 476,140 533,130 C590,120 590,112 647,105 C703,98 703,92 760,88"/>
+      </svg>
+    </div>
+    <div class="progress-legend reveal">
+      <div class="progress-legend-item">
+        <span class="progress-legend-dot" style="background:var(--bronze)"></span> 근력 Strength
+      </div>
+      <div class="progress-legend-item">
+        <span class="progress-legend-dot" style="background:#A8842A"></span> 지구력 Endurance
+      </div>
+      <div class="progress-legend-item">
+        <span class="progress-legend-dot" style="background:#C4A85A"></span> 유연성 Flexibility
+      </div>
+    </div>
+    <div class="progress-stats reveal">
+      <div class="progress-stat">
+        <p class="progress-stat-num"><span data-pcount="92">0</span><span class="stat-suffix">%</span></p>
+        <p class="progress-stat-label">목표 달성률</p>
+      </div>
+      <div class="progress-stat">
+        <p class="progress-stat-num"><span data-pcount="3.2">0</span><span class="stat-suffix">개월</span></p>
+        <p class="progress-stat-label">평균 목표 달성</p>
+      </div>
+      <div class="progress-stat">
+        <p class="progress-stat-num"><span data-pcount="98">0</span><span class="stat-suffix">%</span></p>
+        <p class="progress-stat-label">회원 만족도</p>
       </div>
     </div>
   </div>
@@ -1952,6 +2471,43 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
   </div>
 </div>
 
+<!-- ═══════════ AWARDS & CERTIFICATIONS ═══════════ -->
+<section class="awards-section" id="awards">
+  <div class="awards-inner">
+    <div class="awards-header reveal">
+      <p class="section-label">Certifications</p>
+      <h2 class="section-title">자격 & 인증</h2>
+      <p class="section-desc">검증된 전문성으로 안전하고 효과적인 트레이닝을 제공합니다.</p>
+    </div>
+    <div class="awards-grid reveal">
+      <div class="award-card">
+        <div class="award-icon">I</div>
+        <p class="award-name">NSCA-CSCS</p>
+        <p class="award-org">National Strength &amp; Conditioning</p>
+        <p class="award-desc">미국 체력관리 전문가 자격</p>
+      </div>
+      <div class="award-card">
+        <div class="award-icon">II</div>
+        <p class="award-name">NASM-CPT</p>
+        <p class="award-org">National Academy of Sports Medicine</p>
+        <p class="award-desc">미국 스포츠의학 개인 트레이너</p>
+      </div>
+      <div class="award-card">
+        <div class="award-icon">III</div>
+        <p class="award-name">ACSM-EP</p>
+        <p class="award-org">American College of Sports Medicine</p>
+        <p class="award-desc">미국 스포츠의학회 운동처방사</p>
+      </div>
+      <div class="award-card">
+        <div class="award-icon">IV</div>
+        <p class="award-name">FMS Level 2</p>
+        <p class="award-org">Functional Movement Systems</p>
+        <p class="award-desc">기능적 움직임 평가 전문가</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════ REVIEWS — SPLIT EDITORIAL ═══════════ -->
 <section class="reviews-section" id="reviews">
   <div class="reviews-left">
@@ -1966,6 +2522,8 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
       <div class="reviews-dot" data-slide="1"></div>
       <div class="reviews-dot" data-slide="2"></div>
       <div class="reviews-dot" data-slide="3"></div>
+      <div class="reviews-dot" data-slide="4"></div>
+      <div class="reviews-dot" data-slide="5"></div>
     </div>
   </div>
   <div class="reviews-right">
@@ -1995,10 +2553,30 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
           <p class="review-author-name">최윤서</p>
           <p class="review-author-detail">8개월 수강 · Strength & Performance</p>
         </div>
+        <div class="review-slide">
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">산후 체형 교정이 목적이었는데, 3개월 만에 체형이 눈에 띄게 좋아졌어요. 무리하지 않으면서도 확실한 결과를 만들어주셔서 감사합니다.</p>
+          <p class="review-author-name">정수빈</p>
+          <p class="review-author-detail">5개월 수강 · Body Recomposition</p>
+        </div>
+        <div class="review-slide">
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">마라톤 서브4를 목표로 컨디셔닝 프로그램을 시작했는데, 러닝 폼과 근지구력이 확실히 달라졌습니다. 전문적인 접근이 다르더라고요.</p>
+          <p class="review-author-name">한동훈</p>
+          <p class="review-author-detail">7개월 수강 · Strength &amp; Performance</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ═══════════ PHOTO BAND #2 ═══════════ -->
+<div class="photo-band" aria-hidden="true">
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?w=600&q=80" alt="" loading="lazy"></div>
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80" alt="" loading="lazy"></div>
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1570829460005-c840387bb1ca?w=600&q=80" alt="" loading="lazy"></div>
+  <div class="photo-band-item"><img src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=600&q=80" alt="" loading="lazy"></div>
+</div>
 
 <!-- ═══════════ FAQ ═══════════ -->
 <section class="faq-section" id="faq">
@@ -2029,9 +2607,28 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
         <button class="faq-question"><span>커플이나 친구와 함께 수업 가능한가요?</span><span class="faq-icon">+</span></button>
         <div class="faq-answer"><div class="faq-answer-inner">FORGE는 1:1 프라이빗 트레이닝 전문 스튜디오입니다. 최상의 집중력과 효과를 위해 개인 세션으로 운영하고 있으며, 커플/듀엣 세션은 별도 상담이 필요합니다.</div></div>
       </div>
+      <div class="faq-item">
+        <button class="faq-question"><span>운동복을 따로 준비해야 하나요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">아닙니다. 깨끗한 운동복과 수건, 세면도구를 매 세션마다 제공해드립니다. 편하게 오셔서 운동만 하시면 됩니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question"><span>식단 관리도 함께 해주시나요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Premium 이상 멤버십에 영양 컨설팅이 포함되어 있습니다. 체성분 분석 결과를 바탕으로 목표에 맞는 식단 가이드를 제공하며, 무리한 식이 제한이 아닌 지속 가능한 식습관 변화를 추구합니다.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question"><span>멤버십 기간 중 일시 중지가 가능한가요?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">네, 출장이나 여행 등의 사유로 최대 2주까지 일시 중지가 가능합니다. 사전에 말씀해주시면 해당 기간만큼 멤버십이 연장됩니다.</div></div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- ═══════════ CTA BANNER ═══════════ -->
+<div class="cta-banner reveal">
+  <h2 class="cta-banner-title">Start Your<br><em style="font-style:italic;color:var(--bronze-light)">Transformation</em></h2>
+  <p class="cta-banner-desc">지금 무료 체험을 신청하고 변화의 첫 걸음을 시작하세요.</p>
+  <a href="#contact" class="cta-banner-btn">무료 체험 신청</a>
+</div>
 
 <!-- ═══════════ INSTAGRAM ═══════════ -->
 <section class="insta-section">
@@ -2039,7 +2636,15 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
     <p class="section-label">Follow Us</p>
     <p class="insta-handle">@forge_training</p>
     <p class="insta-desc">트레이닝 일상, 회원 변화 스토리, 운동 팁을 공유합니다.</p>
-    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="insta-btn">Instagram</a>
+    <div class="insta-grid">
+      <div class="insta-grid-item"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80" alt="" loading="lazy"></div>
+      <div class="insta-grid-item"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=400&q=80" alt="" loading="lazy"></div>
+      <div class="insta-grid-item"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80" alt="" loading="lazy"></div>
+      <div class="insta-grid-item"><img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=80" alt="" loading="lazy"></div>
+      <div class="insta-grid-item"><img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?w=400&q=80" alt="" loading="lazy"></div>
+      <div class="insta-grid-item"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80" alt="" loading="lazy"></div>
+    </div>
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="insta-btn" style="margin-top:28px">Instagram</a>
   </div>
 </section>
 
@@ -2074,14 +2679,45 @@ img, video { -webkit-user-drag: none; user-select: none; pointer-events: none; }
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <span class="footer-logo">Forge</span>
-    <p class="footer-copy"><span id="copyright-year"></span> FORGE Private Training Studio. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href="https://blog.naver.com" target="_blank" rel="noopener noreferrer">Blog</a>
+<!-- EXTENDED FOOTER -->
+<footer class="footer-ext">
+  <div class="footer-ext-inner">
+    <div>
+      <p class="footer-ext-brand">Forge</p>
+      <p class="footer-ext-desc">프라이빗 트레이닝의 새로운 기준. 과학적 근거에 기반한 체계적 1:1 프로그램을 경험하세요.</p>
+    </div>
+    <div>
+      <p class="footer-ext-heading">Programs</p>
+      <ul class="footer-ext-list">
+        <li><a href="#programs">Body Recomposition</a></li>
+        <li><a href="#programs">Strength &amp; Performance</a></li>
+        <li><a href="#programs">Pain &amp; Rehabilitation</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-ext-heading">Information</p>
+      <ul class="footer-ext-list">
+        <li><a href="#pricing">멤버십 안내</a></li>
+        <li><a href="#trainers">트레이너 소개</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+        <li><a href="#gallery">시설 안내</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-ext-heading">Contact</p>
+      <ul class="footer-ext-list">
+        <li><a href="tel:02-1234-5678">02-1234-5678</a></li>
+        <li><a href="mailto:hello@forge-studio.kr">hello@forge-studio.kr</a></li>
+        <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a href="https://blog.naver.com" target="_blank" rel="noopener noreferrer">Blog</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-ext-bottom">
+    <p class="footer-ext-copy"><span id="copyright-year"></span> FORGE Private Training Studio. All rights reserved.</p>
+    <div class="footer-ext-links">
+      <a href="#">개인정보처리방침</a>
+      <a href="#">이용약관</a>
     </div>
   </div>
 </footer>
@@ -2118,17 +2754,33 @@ window.scrollTo(0,0);
 (function() {
   'use strict';
 
-  /* ── Loader ── */
+  /* ── Loader — Heartbeat EKG ── */
   var loader = document.getElementById('loader');
+  var bpmEl = document.getElementById('loaderBpm');
   document.body.style.overflow = 'hidden';
+
+  /* BPM counter: 0 → 72 during EKG draw */
+  (function animBpm() {
+    var target = 72, dur = 1600, start = null;
+    setTimeout(function run() {
+      requestAnimationFrame(function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        if (bpmEl) bpmEl.textContent = Math.floor(eased * target);
+        if (p < 1) requestAnimationFrame(step);
+      });
+    }, 300);
+  })();
+
   window.addEventListener('load', function() {
     setTimeout(function() {
       loader.classList.add('done');
       document.body.style.overflow = '';
-    }, 2400);
+    }, 2800);
     setTimeout(function() {
       loader.classList.add('hidden');
-    }, 3400);
+    }, 3700);
   });
 
   /* ── Dark Mode ── */
@@ -2220,6 +2872,8 @@ window.scrollTo(0,0);
       { sel: '.price-card', label: 'Select' },
       { sel: '.trainer-row', label: 'Profile' },
       { sel: '.program-row', label: 'Detail' }
+      ,{ sel: '.journey-step', label: 'Step' }
+      ,{ sel: '.award-card', label: 'Cert' }
     ];
     cursorTargets.forEach(function(ct) {
       document.querySelectorAll(ct.sel).forEach(function(el) {
@@ -2479,6 +3133,47 @@ window.scrollTo(0,0);
   var statsBand = document.getElementById('statsBand');
   if (statsBand) cObs.observe(statsBand);
 
+  /* ── Progress Chart SVG Animation ── */
+  var pChart = document.getElementById('progressChart');
+  if (pChart) {
+    var pLines = pChart.querySelectorAll('.progress-line');
+    pLines.forEach(function(line) {
+      var len = line.getTotalLength();
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+    });
+    var pObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          pLines.forEach(function(line, i) {
+            setTimeout(function() {
+              line.style.strokeDashoffset = '0';
+            }, i * 300);
+          });
+          /* Counter animation for progress stats */
+          pChart.parentElement.querySelectorAll('[data-pcount]').forEach(function(c) {
+            var target = parseFloat(c.dataset.pcount);
+            var isFloat = target % 1 !== 0;
+            var duration = 2000;
+            var startTime = null;
+            function step(ts) {
+              if (!startTime) startTime = ts;
+              var progress = Math.min((ts - startTime) / duration, 1);
+              var eased = 1 - Math.pow(1 - progress, 3);
+              var val = eased * target;
+              c.textContent = isFloat ? val.toFixed(1) : Math.floor(val);
+              if (progress < 1) requestAnimationFrame(step);
+              else c.textContent = isFloat ? target.toFixed(1) : target;
+            }
+            requestAnimationFrame(step);
+          });
+          pObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    pObs.observe(pChart);
+  }
+
   /* ── Toast ── */
   var toast = document.getElementById('toast');
   var toastClose = toast.querySelector('.toast-close');
@@ -2527,7 +3222,7 @@ window.scrollTo(0,0);
 
   /* ── Magnetic Button (desktop only) ── */
   if (!isMob) {
-    document.querySelectorAll('.hero-btn, .nav-cta, .price-btn, .program-cta, .insta-btn').forEach(function(btn) {
+    document.querySelectorAll('.hero-btn, .nav-cta, .price-btn, .program-cta, .insta-btn, .cta-banner-btn').forEach(function(btn) {
       btn.classList.add('mag-btn');
       btn.addEventListener('mousemove', function(e) {
         var r = btn.getBoundingClientRect();
